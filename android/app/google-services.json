@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "671661713189",
+    "project_id": "mobileexchange-66058",
+    "storage_bucket": "mobileexchange-66058.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671661713189:android:963d49b62ab867607b5ccc",
+        "android_client_info": {
+          "package_name": "com.example.mbx"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "671661713189-3pj8rtjij0l1f2uvu8gpf9dq5u3p074e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1p7KN8Pdl8Xzgp7OclOSCraWWdRDZvUM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "671661713189-3pj8rtjij0l1f2uvu8gpf9dq5u3p074e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
