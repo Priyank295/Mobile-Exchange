@@ -108,6 +108,11 @@ flutter:
           weight: 700
         - asset: fonts/Lato-Black.ttf
           style: normal
+  
+    - family: Aquire
+      fonts:
+        - asset: fonts/Aquire.otf
+          weight: 700
           
           
   #   - family: Trajan Pro

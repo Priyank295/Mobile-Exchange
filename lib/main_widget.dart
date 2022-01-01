@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:lottie/lottie.dart';
+import 'package:path/path.dart';
 import 'package:snapshot/snapshot.dart';
 
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'product.dart';
+import 'product_detail_page.dart';
 
 class MainWidget extends StatefulWidget {
   const MainWidget({Key? key}) : super(key: key);
@@ -22,6 +24,8 @@ class MainWidget extends StatefulWidget {
 
 final FirebaseFirestore _fstore = FirebaseFirestore.instance;
 var finalData;
+String DocId = "";
+String UserId = "";
 
 class _MainWidgetState extends State<MainWidget> {
   // @override
@@ -111,64 +115,91 @@ class _MainWidgetState extends State<MainWidget> {
                                   List<dynamic> getImages = productSnapshot
                                       .data?.docs[index]
                                       .get("Product Photo");
-                                  return Column(children: [
-                                    Container(
-                                      height: 208,
-                                      width: 170,
-                                      child: Card(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(30)),
-                                        color: Color(0xfffF1F4FB),
-                                        child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(30),
-                                            child: Image.network(
-                                              getImages[0] ??
-                                                  "https://drive.google.com/file/d/1vn5SBl4PUzOoVFj6wyYMat-cXnu-3LN3/view?usp=sharing",
-                                              // Lottie.asset("assets/loading.json",
-                                              //     height: 50,
-                                              //     frameRate: FrameRate(60)),
-                                              loadingBuilder:
-                                                  (BuildContext context,
-                                                      Widget child,
-                                                      ImageChunkEvent?
-                                                          loadingProgress) {
-                                                if (loadingProgress == null)
-                                                  return child;
-                                                return Center(
-                                                  child:
-                                                      CircularProgressIndicator(
-                                                    value: loadingProgress
-                                                                .expectedTotalBytes !=
-                                                            null
-                                                        ? loadingProgress
-                                                                .cumulativeBytesLoaded /
-                                                            loadingProgress
-                                                                .expectedTotalBytes!
-                                                        : null,
-                                                  ),
-                                                );
-                                              },
-                                              fit: BoxFit.cover,
-                                            )),
+                                  return GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        DocId = productSnapshot
+                                            .data!.docs[index].id;
+
+                                        UserId = snapshot.data!.docs[index].id;
+
+                                        print(DocId);
+                                      });
+
+                                      if (DocId != null) {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProductDetailPage(
+                                                        DocId, UserId)));
+                                      }
+                                    },
+                                    child: Column(children: [
+                                      Container(
+                                        height: 208,
+                                        width: 170,
+                                        child: Card(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(30)),
+                                          color: Color(0xfffF1F4FB),
+                                          child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(30),
+                                              child: Image.network(
+                                                getImages[0] ??
+                                                    "https://drive.google.com/file/d/1vn5SBl4PUzOoVFj6wyYMat-cXnu-3LN3/view?usp=sharing",
+                                                // Lottie.asset("assets/loading.json",
+                                                //     height: 50,
+                                                //     frameRate: FrameRate(60)),
+                                                loadingBuilder:
+                                                    (BuildContext context,
+                                                        Widget child,
+                                                        ImageChunkEvent?
+                                                            loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes!
+                                                          : null,
+                                                    ),
+                                                  );
+                                                },
+                                                fit: BoxFit.cover,
+                                              )),
+                                        ),
                                       ),
-                                    ),
-                                    Text(
-                                      productSnapshot.data?.docs[index]
-                                          .get('Product Name'),
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black),
-                                    ),
-                                    Text(
-                                      "\u{20B9}" +
-                                          productSnapshot.data!.docs[index]
-                                              .get("Product Price")
-                                              .toString(),
-                                      style: TextStyle(
-                                          fontSize: 20, color: Colors.black),
-                                    ),
-                                  ]);
+                                      Text(
+                                        productSnapshot.data?.docs[index].get(
+                                          'Product Name',
+                                        ),
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.black,
+                                            fontFamily: "Lato",
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      Text(
+                                        "\u{20B9}" +
+                                            productSnapshot.data!.docs[index]
+                                                .get("Product Price")
+                                                .toString(),
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            color: Color(0xfffA1A1A1),
+                                            fontFamily: "Lato"),
+                                      ),
+                                    ]),
+                                  );
                                 },
                               );
                             }

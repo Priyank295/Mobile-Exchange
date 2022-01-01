@@ -9,6 +9,7 @@ import 'package:mbx/home.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
+import 'package:mbx/product_detail_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './otppage.dart';
 import 'package:mbx/register.dart';
