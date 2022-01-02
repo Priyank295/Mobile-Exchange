@@ -160,7 +160,6 @@ class _SellPageState extends State<SellPage> {
                                 autoPlay: true,
                                 height: 270,
                                 reverse: false,
-                                aspectRatio: 4 / 3,
                               ),
                             ),
                           ),

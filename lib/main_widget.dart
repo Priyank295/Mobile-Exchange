@@ -96,11 +96,11 @@ class _MainWidgetState extends State<MainWidget> {
                             DocumentSnapshot productDoc =
                                 productSnapshot.data!.docs[j];
                             if (productDoc.id != null) {
-                              final Data = FirebaseFirestore.instance
-                                  .collection("users")
-                                  .doc(document.id)
-                                  .collection("Products")
-                                  .doc(productDoc.id);
+                              // final Data = FirebaseFirestore.instance
+                              //     .collection("users")
+                              //     .doc(document.id)
+                              //     .collection("Products")
+                              //     .doc(productDoc.id);
 
                               return GridView.builder(
                                 gridDelegate:
@@ -115,38 +115,45 @@ class _MainWidgetState extends State<MainWidget> {
                                   List<dynamic> getImages = productSnapshot
                                       .data?.docs[index]
                                       .get("Product Photo");
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        DocId = productSnapshot
-                                            .data!.docs[index].id;
+                                  return Column(children: [
+                                    Container(
+                                      height: 208,
+                                      width: 170,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        color: Color(0xfffF1F4FB),
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                var x = productSnapshot
+                                                    .data!.docs[index];
+                                                setState(() {
+                                                  UserId = document.id;
 
-                                        UserId = snapshot.data!.docs[index].id;
+                                                  DocId = productDoc.id;
 
-                                        print(DocId);
-                                      });
+                                                  print(UserId);
+                                                  print(DocId);
+                                                });
 
-                                      if (DocId != null) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProductDetailPage(
-                                                        DocId, UserId)));
-                                      }
-                                    },
-                                    child: Column(children: [
-                                      Container(
-                                        height: 208,
-                                        width: 170,
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          color: Color(0xfffF1F4FB),
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (ctx) =>
+                                                            ProductDetailPage(
+                                                                UserId,
+                                                                DocId,
+                                                                productSnapshot
+                                                                        .data!
+                                                                        .docs[
+                                                                    index],
+                                                                snapshot.data!
+                                                                    .docs[i])));
+                                              },
                                               child: Image.network(
                                                 getImages[0] ??
                                                     "https://drive.google.com/file/d/1vn5SBl4PUzOoVFj6wyYMat-cXnu-3LN3/view?usp=sharing",
@@ -175,31 +182,31 @@ class _MainWidgetState extends State<MainWidget> {
                                                   );
                                                 },
                                                 fit: BoxFit.cover,
-                                              )),
-                                        ),
+                                              ),
+                                            )),
                                       ),
-                                      Text(
-                                        productSnapshot.data?.docs[index].get(
-                                          'Product Name',
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      productSnapshot.data?.docs[index].get(
+                                        'Product Name',
                                       ),
-                                      Text(
-                                        "\u{20B9}" +
-                                            productSnapshot.data!.docs[index]
-                                                .get("Product Price")
-                                                .toString(),
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xfffA1A1A1),
-                                            fontFamily: "Lato"),
-                                      ),
-                                    ]),
-                                  );
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontFamily: "Lato",
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "\u{20B9}" +
+                                          productSnapshot.data!.docs[index]
+                                              .get("Product Price")
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xfffA1A1A1),
+                                          fontFamily: "Lato"),
+                                    ),
+                                  ]);
                                 },
                               );
                             }
