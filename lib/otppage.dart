@@ -199,7 +199,8 @@ class _OtpPage2State extends State<OtpPage2> {
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => NavBar()),
+                                      builder: (context) =>
+                                          Fill_Profile(uid: uid)),
                                   (route) => false);
                             }
                           }
@@ -291,7 +292,10 @@ class _OtpPage2State extends State<OtpPage2> {
               } else {
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => NavBar()),
+                    MaterialPageRoute(
+                        builder: (context) => Fill_Profile(
+                              uid: uid,
+                            )),
                     (route) => false);
               }
             }

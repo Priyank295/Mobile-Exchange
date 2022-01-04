@@ -1,13 +1,4 @@
-import 'dart:convert';
-import 'package:lottie/lottie.dart';
-import 'package:path/path.dart';
-import 'package:snapshot/snapshot.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mbx/navbar.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'product.dart';
@@ -27,44 +18,9 @@ var finalData;
 String DocId = "";
 String UserId = "";
 
+var stream1 = _fstore.collection("users").snapshots();
+
 class _MainWidgetState extends State<MainWidget> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   readData();
-  // }
-
-  // // Future<void> readData() async {
-  // //   final doc = _fstore
-  // //       .collection("users")
-  // //       .doc("5N0XbO0lGTKIPV0K5B7l")
-  // //       .collection("product");
-
-  // //   QuerySnapshot querySnapshot = await doc.get();
-
-  // //   final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-  // //   Product(Description: )
-  // // }
-
-  // Future<List<Product>> fetchProduct() async {
-  //   final product = <Product>[];
-  //   final doc = await FirebaseFirestore.instance
-  //       .collection("users")
-  //       .doc("5N0XbO0lGTKIPV0K5B7l")
-  //       .collection("product")
-  //       .doc("KYYlVMBFPyAvd2uDoz0k")
-  //       .get();
-  //   final productTmp = doc.data().forEach((pro) {
-  //     product.add(Product.fromMap(pro));
-  //   });
-  // }
-
-  // Future<void> readData() async {
-  //   FirebaseFirestore _firestore = FirebaseFirestore.instance.collection('users').doc('uid').collection('product').;
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,12 +31,8 @@ class _MainWidgetState extends State<MainWidget> {
             if (snapshot.hasData) {
               for (int i = 0; i < snapshot.data!.docs.length; i++) {
                 DocumentSnapshot document = snapshot.data!.docs[i];
+                print(document.id);
                 if (document.id != null) {
-                  final productData = FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(document.id)
-                      .collection("Products")
-                      .snapshots();
                   return StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection("users")
@@ -96,12 +48,6 @@ class _MainWidgetState extends State<MainWidget> {
                             DocumentSnapshot productDoc =
                                 productSnapshot.data!.docs[j];
                             if (productDoc.id != null) {
-                              // final Data = FirebaseFirestore.instance
-                              //     .collection("users")
-                              //     .doc(document.id)
-                              //     .collection("Products")
-                              //     .doc(productDoc.id);
-
                               return GridView.builder(
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
@@ -212,7 +158,9 @@ class _MainWidgetState extends State<MainWidget> {
                             }
                           }
                         }
-                        return Container();
+                        return Center(
+                          child: Text("NO DATA"),
+                        );
                       });
                 }
               }
@@ -221,7 +169,9 @@ class _MainWidgetState extends State<MainWidget> {
               //       frameRate: FrameRate(30)),
               // );
             }
-            return Container();
+            return Center(
+              child: Text("NO DATA"),
+            );
           }),
       // body: GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
