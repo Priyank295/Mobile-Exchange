@@ -1,13 +1,4 @@
-import 'dart:convert';
-import 'package:lottie/lottie.dart';
-import 'package:path/path.dart';
-import 'package:snapshot/snapshot.dart';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mbx/navbar.dart';
-import 'package:firebase_database/firebase_database.dart';
-import 'package:http/http.dart' as http;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'product.dart';
@@ -27,44 +18,9 @@ var finalData;
 String DocId = "";
 String UserId = "";
 
+var stream1 = _fstore.collection("users").snapshots();
+
 class _MainWidgetState extends State<MainWidget> {
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   readData();
-  // }
-
-  // // Future<void> readData() async {
-  // //   final doc = _fstore
-  // //       .collection("users")
-  // //       .doc("5N0XbO0lGTKIPV0K5B7l")
-  // //       .collection("product");
-
-  // //   QuerySnapshot querySnapshot = await doc.get();
-
-  // //   final allData = querySnapshot.docs.map((doc) => doc.data()).toList();
-  // //   Product(Description: )
-  // // }
-
-  // Future<List<Product>> fetchProduct() async {
-  //   final product = <Product>[];
-  //   final doc = await FirebaseFirestore.instance
-  //       .collection("users")
-  //       .doc("5N0XbO0lGTKIPV0K5B7l")
-  //       .collection("product")
-  //       .doc("KYYlVMBFPyAvd2uDoz0k")
-  //       .get();
-  //   final productTmp = doc.data().forEach((pro) {
-  //     product.add(Product.fromMap(pro));
-  //   });
-  // }
-
-  // Future<void> readData() async {
-  //   FirebaseFirestore _firestore = FirebaseFirestore.instance.collection('users').doc('uid').collection('product').;
-
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,14 +29,11 @@ class _MainWidgetState extends State<MainWidget> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
+              print("Length:${snapshot.data!.docs.length}");
               for (int i = 0; i < snapshot.data!.docs.length; i++) {
                 DocumentSnapshot document = snapshot.data!.docs[i];
+                print(document.id);
                 if (document.id != null) {
-                  final productData = FirebaseFirestore.instance
-                      .collection("users")
-                      .doc(document.id)
-                      .collection("Products")
-                      .snapshots();
                   return StreamBuilder(
                       stream: FirebaseFirestore.instance
                           .collection("users")
@@ -96,12 +49,6 @@ class _MainWidgetState extends State<MainWidget> {
                             DocumentSnapshot productDoc =
                                 productSnapshot.data!.docs[j];
                             if (productDoc.id != null) {
-                              final Data = FirebaseFirestore.instance
-                                  .collection("users")
-                                  .doc(document.id)
-                                  .collection("Products")
-                                  .doc(productDoc.id);
-
                               return GridView.builder(
                                 gridDelegate:
                                     SliverGridDelegateWithFixedCrossAxisCount(
@@ -115,38 +62,45 @@ class _MainWidgetState extends State<MainWidget> {
                                   List<dynamic> getImages = productSnapshot
                                       .data?.docs[index]
                                       .get("Product Photo");
-                                  return GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        DocId = productSnapshot
-                                            .data!.docs[index].id;
+                                  return Column(children: [
+                                    Container(
+                                      height: 208,
+                                      width: 170,
+                                      child: Card(
+                                        shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30)),
+                                        color: Color(0xfffF1F4FB),
+                                        child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(30),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                var x = productSnapshot
+                                                    .data!.docs[index];
+                                                setState(() {
+                                                  UserId = document.id;
 
-                                        UserId = snapshot.data!.docs[index].id;
+                                                  DocId = productDoc.id;
 
-                                        print(DocId);
-                                      });
+                                                  print(UserId);
+                                                  print(DocId);
+                                                });
 
-                                      if (DocId != null) {
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ProductDetailPage(
-                                                        DocId, UserId)));
-                                      }
-                                    },
-                                    child: Column(children: [
-                                      Container(
-                                        height: 208,
-                                        width: 170,
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(30)),
-                                          color: Color(0xfffF1F4FB),
-                                          child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(30),
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (ctx) =>
+                                                            ProductDetailPage(
+                                                                UserId,
+                                                                DocId,
+                                                                productSnapshot
+                                                                        .data!
+                                                                        .docs[
+                                                                    index],
+                                                                snapshot.data!
+                                                                    .docs[i])));
+                                              },
                                               child: Image.network(
                                                 getImages[0] ??
                                                     "https://drive.google.com/file/d/1vn5SBl4PUzOoVFj6wyYMat-cXnu-3LN3/view?usp=sharing",
@@ -175,37 +129,39 @@ class _MainWidgetState extends State<MainWidget> {
                                                   );
                                                 },
                                                 fit: BoxFit.cover,
-                                              )),
-                                        ),
+                                              ),
+                                            )),
                                       ),
-                                      Text(
-                                        productSnapshot.data?.docs[index].get(
-                                          'Product Name',
-                                        ),
-                                        style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.black,
-                                            fontFamily: "Lato",
-                                            fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      productSnapshot.data?.docs[index].get(
+                                        'Product Name',
                                       ),
-                                      Text(
-                                        "\u{20B9}" +
-                                            productSnapshot.data!.docs[index]
-                                                .get("Product Price")
-                                                .toString(),
-                                        style: TextStyle(
-                                            fontSize: 18,
-                                            color: Color(0xfffA1A1A1),
-                                            fontFamily: "Lato"),
-                                      ),
-                                    ]),
-                                  );
+                                      style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.black,
+                                          fontFamily: "Lato",
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      "\u{20B9}" +
+                                          productSnapshot.data!.docs[index]
+                                              .get("Product Price")
+                                              .toString(),
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          color: Color(0xfffA1A1A1),
+                                          fontFamily: "Lato"),
+                                    ),
+                                  ]);
                                 },
                               );
                             }
                           }
                         }
-                        return Container();
+                        return Center(
+                          child: Text("NO DATA"),
+                        );
                       });
                 }
               }
@@ -214,7 +170,9 @@ class _MainWidgetState extends State<MainWidget> {
               //       frameRate: FrameRate(30)),
               // );
             }
-            return Container();
+            return Center(
+              child: Text("NO DATA"),
+            );
           }),
       // body: GridView.builder(
       //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
