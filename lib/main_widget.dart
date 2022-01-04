@@ -29,6 +29,7 @@ class _MainWidgetState extends State<MainWidget> {
           builder:
               (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (snapshot.hasData) {
+              print("Length:${snapshot.data!.docs.length}");
               for (int i = 0; i < snapshot.data!.docs.length; i++) {
                 DocumentSnapshot document = snapshot.data!.docs[i];
                 print(document.id);
