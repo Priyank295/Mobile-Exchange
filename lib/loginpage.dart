@@ -334,10 +334,7 @@ class _LoginPageState extends State<LoginPage> {
                         context,
                         MaterialPageRoute(
                             builder: (context) => OtpPage2(
-                                Phone: _email.text,
-                                uid: uid,
-                                Email: Email,
-                                Pass: Pass)));
+                                Phone: _email.text, Email: Email, Pass: Pass)));
                   }
 
                   // if (_success == true) {
