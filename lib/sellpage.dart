@@ -539,7 +539,8 @@ class _SellPageState extends State<SellPage> {
                                     _isModel == false ||
                                     _isPrice == false) {
                                 } else {
-                                  uploadProduct();
+                                  // uploadProduct();
+                                  newUploadProduct();
                                 }
                               },
                               child: Container(
@@ -588,23 +589,43 @@ class _SellPageState extends State<SellPage> {
     );
   }
 
-  Future<void> uploadProduct() async {
+  // Future<void> uploadProduct() async {
+  //   User? currentuser = FirebaseAuth.instance.currentUser;
+
+  //   var userId = currentuser!.uid;
+
+  //   FirebaseFirestore.instance
+  //       .collection("users")
+  //       .doc(userId)
+  //       .collection("Products")
+  //       .add({
+  //     "Product Name": _pName.text,
+  //     "Product Price": _price.text,
+  //     "Product Model": _model.text,
+  //     "Product Description": _description.text,
+  //     "Product Photo": imgUrl,
+  //     "User Id": userId,
+  //   }).then((value) {
+  //     print("Product is Successfully added");
+
+  //     // Get.to(() => ProductAdded());
+  //   });
+  // }
+
+  Future<void> newUploadProduct() async {
     User? currentuser = FirebaseAuth.instance.currentUser;
 
     var userId = currentuser!.uid;
 
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(userId)
-        .collection("Products")
-        .add({
+    FirebaseFirestore.instance.collection("Products").add({
       "Product Name": _pName.text,
       "Product Price": _price.text,
       "Product Model": _model.text,
       "Product Description": _description.text,
       "Product Photo": imgUrl,
+      "User Id": userId,
     }).then((value) {
-      print("Product is Successfully added");
+      print("New Product is Successfully added");
 
       Get.to(() => ProductAdded());
     });

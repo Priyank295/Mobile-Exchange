@@ -18,17 +18,12 @@ import './navbar.dart';
 FirebaseAuth _auth = FirebaseAuth.instance;
 
 class OtpPage2 extends StatefulWidget {
-  String Phone = "";
+  String Phone;
   String Email;
   String Pass;
-  late String uid;
 
   OtpPage2(
-      {Key? key,
-      required this.Phone,
-      required this.uid,
-      required this.Email,
-      required this.Pass})
+      {Key? key, required this.Phone, required this.Email, required this.Pass})
       : super(key: key);
 
   @override
@@ -40,6 +35,7 @@ class _OtpPage2State extends State<OtpPage2> {
   final TextEditingController otptext = TextEditingController();
   final FocusNode _otpnode = FocusNode();
   String _verificationCode = "";
+  String uid = "";
 
   BoxDecoration get _pinPutDecoration {
     return BoxDecoration(
@@ -134,7 +130,8 @@ class _OtpPage2State extends State<OtpPage2> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Fill_Profile(uid: uid),
+                              builder: (context) =>
+                                  Fill_Profile(uid: value.user!.uid),
                             ),
                           );
                         }
@@ -200,7 +197,7 @@ class _OtpPage2State extends State<OtpPage2> {
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          Fill_Profile(uid: uid)),
+                                          Fill_Profile(uid: value.user!.uid)),
                                   (route) => false);
                             }
                           }
@@ -270,17 +267,21 @@ class _OtpPage2State extends State<OtpPage2> {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
               .then((value) async {
+            setState(() {
+              uid = value.user!.uid;
+              print(uid);
+            });
             FirebaseFirestore.instance
                 .collection("users")
                 .doc(value.user!.uid)
                 .set({
               "Uid": value.user!.uid,
               "Email": widget.Email,
-              "Phone": widget.Phone,
               "Password": widget.Pass,
+              "Phone": widget.Phone,
             });
             if (value.user != null) {
-              print(value.user!.uid);
+              print("REAL UID" + value.user!.uid);
 
               if (user == null) {
                 Navigator.pushAndRemoveUntil(
@@ -294,7 +295,7 @@ class _OtpPage2State extends State<OtpPage2> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Fill_Profile(
-                              uid: uid,
+                              uid: value.user!.uid,
                             )),
                     (route) => false);
               }

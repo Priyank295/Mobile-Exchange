@@ -404,7 +404,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => OtpPage2(
                               Phone: _phone.text,
-                              uid: uid,
                               Email: email.text,
                               Pass: _pass.text,
                             )));

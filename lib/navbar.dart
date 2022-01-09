@@ -10,6 +10,7 @@ import 'package:mbx/firstpage.dart';
 import 'package:mbx/loginpage.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:mbx/profile.dart';
 import 'package:mbx/searchpage.dart';
 import './home.dart';
 import './sellpage.dart';
@@ -47,7 +48,7 @@ class _NavBarState extends State<NavBar> {
     Search(),
     SellPage(),
     Cart(),
-    EditProfile(),
+    Profile(),
   ];
   PageController controller = PageController();
   final FirebaseAuth _auth = FirebaseAuth.instance;
