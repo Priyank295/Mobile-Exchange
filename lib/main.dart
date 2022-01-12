@@ -11,6 +11,7 @@ import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
 import 'package:mbx/product_detail_page.dart';
 import 'package:mbx/profile.dart';
+import 'package:mbx/profile_update.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './otppage.dart';
 import 'package:mbx/register.dart';
@@ -60,7 +61,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : NavBar(),
+      home: FirebaseAuth.instance.currentUser == null
+          ? FirstPage()
+          : ProfileUpdate(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
