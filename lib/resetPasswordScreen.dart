@@ -146,15 +146,12 @@ class _ResetPasswordState extends State<ResetPassword> {
               if (_email.text.isEmpty || _isemail == false) {
               } else {
                 try {
-                  // FirebaseAuth.instance
-                  //     .sendPasswordResetEmail(email: _email.text)
-                  //     .then((value) {
-                  //   Navigator.push(context,
-                  //       MaterialPageRoute(builder: (ctx) => CheckMail()));
-                  // });
-
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (ctx) => CheckMail()));
+                  FirebaseAuth.instance
+                      .sendPasswordResetEmail(email: _email.text)
+                      .then((value) {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (ctx) => CheckMail()));
+                  });
                 } catch (e) {
                   print(e);
                 }
