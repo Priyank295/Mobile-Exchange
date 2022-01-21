@@ -1,5 +1,3 @@
-// ignore_for_file: non_constant_identifier_names
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -122,18 +120,31 @@ class _OtpPage2State extends State<OtpPage2> {
                 child: PinPut(
                   onSubmit: (pin) async {
                     try {
+                      final User? Uid = _auth.currentUser;
+                      var userid = Uid!.uid;
+
                       await _auth
                           .signInWithCredential(PhoneAuthProvider.credential(
                               verificationId: _verificationCode, smsCode: pin))
                           .then((value) async {
-                        if (value.user != null) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  Fill_Profile(uid: value.user!.uid),
-                            ),
-                          );
+                        if (!value.additionalUserInfo!.isNewUser) {
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(builder: (context) => NavBar()),
+                              (route) => false);
+                        } else {
+                          FirebaseFirestore.instance
+                              .collection("users")
+                              .doc(value.user!.uid)
+                              .set({
+                            "Uid": value.user!.uid,
+                            "Phone": widget.Phone,
+                          });
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Fill_Profile()),
+                              (route) => false);
                         }
                       });
                     } catch (e) {
@@ -179,27 +190,33 @@ class _OtpPage2State extends State<OtpPage2> {
                   onPressed: () async {
                     (pin) async {
                       try {
+                        final User? Uid = _auth.currentUser;
+                        var userid = Uid!.uid;
+
                         await _auth
                             .signInWithCredential(PhoneAuthProvider.credential(
                                 verificationId: _verificationCode,
                                 smsCode: pin))
                             .then((value) async {
-                          if (value.user != null) {
-                            if (user == null) {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Fill_Profile(uid: value.user!.uid)),
-                                  (route) => false);
-                            } else {
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          Fill_Profile(uid: value.user!.uid)),
-                                  (route) => false);
-                            }
+                          if (!value.additionalUserInfo!.isNewUser) {
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => NavBar()),
+                                (route) => false);
+                          } else {
+                            FirebaseFirestore.instance
+                                .collection("users")
+                                .doc(value.user!.uid)
+                                .set({
+                              "Uid": value.user!.uid,
+                              "Phone": widget.Phone,
+                            });
+                            Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => Fill_Profile()),
+                                (route) => false);
                           }
                         });
                       } catch (e) {
@@ -267,38 +284,33 @@ class _OtpPage2State extends State<OtpPage2> {
           await FirebaseAuth.instance
               .signInWithCredential(credential)
               .then((value) async {
-            setState(() {
-              uid = value.user!.uid;
-              print(uid);
-            });
-            FirebaseFirestore.instance
-                .collection("users")
-                .doc(value.user!.uid)
-                .set({
-              "Uid": value.user!.uid,
-              "Email": widget.Email,
-              "Password": widget.Pass,
-              "Phone": widget.Phone,
-            });
-            if (value.user != null) {
-              print("REAL UID" + value.user!.uid);
+            // if(!value.additionalUserInfo!.isNewUser)
+            // {
 
-              if (user == null) {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) =>
-                            Fill_Profile(uid: value.user!.uid)),
-                    (route) => false);
-              } else {
-                Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Fill_Profile(
-                              uid: value.user!.uid,
-                            )),
-                    (route) => false);
-              }
+            // }
+            // setState(() {
+            //   uid = value.user!.uid;
+            // });
+
+            if (!value.additionalUserInfo!.isNewUser) {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => NavBar()),
+                  (route) => false);
+            } else {
+              FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(value.user!.uid)
+                  .set({
+                "Uid": value.user!.uid,
+                "Email": widget.Email,
+                "Password": widget.Pass,
+                "Phone": widget.Phone,
+              });
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => Fill_Profile()),
+                  (route) => false);
             }
           });
         },
@@ -317,6 +329,42 @@ class _OtpPage2State extends State<OtpPage2> {
         },
         timeout: Duration(seconds: 60));
   }
+
+  // Future<void> _login() async {
+  //   /// This method is used to login the user
+  //   /// `AuthCredential`(`_phoneAuthCredential`) is needed for the signIn method
+  //   /// After the signIn method from `AuthResult` we can get `FirebaserUser`(`_firebaseUser`)
+  //   try {
+  //     await FirebaseAuth.instance
+  //         .signInWithCredential(PhoneAuthCredential credential)
+  //         .then((AuthResult authRes) {
+  //       _firebaseUser = authRes.user;
+  //       print(_firebaseUser.toString());
+  //     });
+  //     ...
+  //   } catch (e) {
+  //     ...
+  //     print(e.toString());
+  //   }
+  // }
+
+  // Future<void> _login() async {
+  //   /// This method is used to login the user
+  //   /// `AuthCredential`(`_phoneAuthCredential`) is needed for the signIn method
+  //   /// After the signIn method from `AuthResult` we can get `FirebaserUser`(`_firebaseUser`)
+  //   try {
+  //     await FirebaseAuth.instance
+  //         .signInWithCredential()
+  //         .then((UserCredential authRes) {
+  //       _firebaseUser = authRes.user;
+  //       print(_firebaseUser.toString());
+  //     });
+  //     ...
+  //   } catch (e) {
+  //     ...
+  //     print(e.toString());
+  //   }
+  // }
 
   @override
   void initState() {

@@ -11,7 +11,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: Text("CART PAGE")),
+      body: Center(child: Text("CHAT PAGE")),
     );
   }
 }

@@ -1,6 +1,7 @@
 name: mbx
 description: A new Flutter project.
 
+
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -60,6 +61,10 @@ dependencies:
   path: ^1.7.0
   permission_handler: ^8.3.0
   carousel_slider: ^4.0.0
+  material_design_icons_flutter: ^5.0.6595
+  flutter_appavailability: ^0.0.21
+  device_apps: ^2.1.1
+  
  
 
 dev_dependencies:
@@ -113,7 +118,15 @@ flutter:
       fonts:
         - asset: fonts/Aquire.otf
           weight: 700
+
+    - family: Icon
+      fonts:
+        - asset: fonts/MyFlutterApp.ttf
           
+          
+  
+    
+  
           
   #   - family: Trajan Pro
   #     fonts:

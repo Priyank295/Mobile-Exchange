@@ -12,9 +12,9 @@ import 'package:mbx/navbar.dart';
 
 enum Gender { male, female }
 
+User? user = FirebaseAuth.instance.currentUser;
+
 class Fill_Profile extends StatefulWidget {
-  String uid;
-  Fill_Profile({required this.uid});
   @override
   _Fill_ProfileState createState() => _Fill_ProfileState();
 }
@@ -408,7 +408,7 @@ class _Fill_ProfileState extends State<Fill_Profile> {
             Center(
               child: GestureDetector(
                 onTap: () {
-                  log("DOC ID : + ${widget.uid}");
+                  log("DOC ID : + ${user!.uid}");
                   updateData();
                 },
                 child: Container(
@@ -454,7 +454,7 @@ class _Fill_ProfileState extends State<Fill_Profile> {
   // }
 
   Future<void> updateData() async {
-    await FirebaseFirestore.instance.collection('users').doc(widget.uid).update(
+    await FirebaseFirestore.instance.collection('users').doc(user!.uid).update(
       {
         "Fname": _fname.text,
         "Lname": _lname.text,
@@ -462,8 +462,8 @@ class _Fill_ProfileState extends State<Fill_Profile> {
         "Zip": _zip.text,
       },
     ).then((value) {
-      Navigator.push(
-          context, MaterialPageRoute(builder: (context) => NavBar()));
+      Navigator.pushAndRemoveUntil(context,
+          MaterialPageRoute(builder: (context) => NavBar()), (route) => false);
     });
   }
 }

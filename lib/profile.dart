@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mbx/profile_update.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 late Map<String, dynamic> userData;
@@ -75,7 +76,12 @@ class _ProfileState extends State<Profile> {
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 40, right: 20),
-                              child: SvgPicture.asset("assets/edit2.svg"),
+                              child: GestureDetector(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (ctx) => ProfileUpdate())),
+                                  child: SvgPicture.asset("assets/edit2.svg")),
                             ),
                           ],
                         ),
@@ -141,13 +147,13 @@ class _ProfileState extends State<Profile> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(snapshot.data!["Email"],
+                              Text("Email",
                                   style: TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text("priyank@gmail.com",
+                              Text(snapshot.data!["Email"],
                                   style: TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 16,
