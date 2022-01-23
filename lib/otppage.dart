@@ -12,6 +12,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pinput/pin_put/pin_put.dart';
 import 'package:pinput/pin_put/pin_put_state.dart';
 import './navbar.dart';
+import 'loadingScreen.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 

@@ -7,6 +7,7 @@ import 'package:mbx/checkEmail.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/home.dart';
+import 'package:mbx/loadingScreen.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
@@ -14,7 +15,6 @@ import 'package:mbx/product_detail_page.dart';
 import 'package:mbx/profile.dart';
 import 'package:mbx/profile_update.dart';
 import 'package:mbx/resetPasswordScreen.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import './otppage.dart';
 import 'package:mbx/register.dart';
@@ -23,6 +23,7 @@ import 'package:firebase_core/firebase_core.dart';
 import './otppage.dart';
 import './register.dart';
 import './user.dart';
+import 'chatScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -64,8 +65,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-          FirebaseAuth.instance.currentUser == null ? FirstPage() : LoginPage(),
+      home: FirebaseAuth.instance.currentUser == null
+          ? FirstPage()
+          : ChatScreen(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),

@@ -15,6 +15,7 @@ import 'package:mbx/searchpage.dart';
 import './home.dart';
 import './sellpage.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -109,7 +110,7 @@ class _NavBarState extends State<NavBar> {
                     //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   ),
                   GButton(
-                    icon: Icons.shopping_bag,
+                    icon: LineAwesomeIcons.sms,
                     iconColor: Colors.black,
                     iconActiveColor: Colors.grey,
                     text: 'Chat',

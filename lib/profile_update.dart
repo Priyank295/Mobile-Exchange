@@ -12,6 +12,16 @@ class ProfileUpdate extends StatefulWidget {
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 FirebaseFirestore _fire = FirebaseFirestore.instance;
+String fname = "";
+String lname = "";
+String address = "";
+String phone = "";
+String zipcode = "";
+String email = "";
+
+GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+User? user = _auth.currentUser;
 
 class _ProfileUpdateState extends State<ProfileUpdate> {
   @override
@@ -23,7 +33,15 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
+            // fname = snapshot.data!["Fname"];
+            // lname = snapshot.data!["Lname"];
+            // address = snapshot.data!["Address"];
+            // zipcode = snapshot.data!["Zip"];
+            // email = snapshot.data!["Email"];
+            // phone = snapshot.data!["Phone"];
+
             return Scaffold(
+              key: _scaffoldKey,
               body: Column(
                 children: [
                   Stack(children: [
@@ -104,7 +122,8 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                             margin: EdgeInsets.only(top: 40),
                             child: CircleAvatar(
                               radius: 70,
-                              backgroundImage: AssetImage("assets/dp2.jpg"),
+                              // backgroundImage: snapshot.data!["Profile Pic"] == "" ? Image.asset("assets/male.png") : Image.asset("assets/female.png");
+
                               child: Stack(children: [
                                 Align(
                                   alignment: Alignment.bottomRight,
@@ -123,6 +142,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 70),
                             child: TextFormField(
+                              onChanged: (value) {
+                                FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Fname": value});
+                              },
                               initialValue: snapshot.data!["Fname"],
                               style: TextStyle(
                                 color: Colors.black,
@@ -151,6 +176,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 70),
                             child: TextFormField(
+                              onChanged: (value) {
+                                FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Lname": value});
+                              },
                               initialValue: snapshot.data!["Lname"],
                               style: TextStyle(
                                 color: Colors.black,
@@ -179,7 +210,15 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 70),
                             child: TextFormField(
-                              initialValue: snapshot.data!["Email"],
+                              onChanged: (value) {
+                                FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Email": value});
+                              },
+                              initialValue: snapshot.data!["Email"] == ""
+                                  ? ""
+                                  : snapshot.data!["Email"],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
@@ -207,7 +246,15 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 70),
                             child: TextFormField(
-                              initialValue: snapshot.data!["Phone"],
+                              onChanged: (value) {
+                                FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Phone": value});
+                              },
+                              initialValue: snapshot.data!["Phone"] == ""
+                                  ? ""
+                                  : snapshot.data!["Phone"],
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
@@ -235,6 +282,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 70),
                             child: TextFormField(
+                              onChanged: (value) {
+                                FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Address": value});
+                              },
                               initialValue: snapshot.data!["Address"],
                               style: TextStyle(
                                 color: Colors.black,
@@ -263,6 +316,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 70),
                             child: TextFormField(
+                              onChanged: (value) {
+                                FirebaseFirestore.instance
+                                    .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Zip": value});
+                              },
                               initialValue: snapshot.data!["Zip"],
                               style: TextStyle(
                                 color: Colors.black,
@@ -293,7 +352,29 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                                 horizontal: 30, vertical: 20),
                             child: Center(
                               child: InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  // FirebaseFirestore.instance
+                                  //     .collection("users")
+                                  //     .doc(user.uid)
+                                  //     .update({
+                                  //   "Fname": fname,
+                                  //   "Lname": lname,
+                                  //   "Email": email,
+                                  //   "Address": address,
+                                  //   "Zip": zipcode,
+                                  //   "Phone": phone,
+                                  // }).then((value) {
+
+                                  // });
+
+                                  _scaffoldKey.currentState!.showSnackBar(
+                                      new SnackBar(
+                                          content: Text(
+                                              "Profile is Successfully updated...",
+                                              style: TextStyle(
+                                                  fontFamily: "Lato",
+                                                  fontSize: 14))));
+                                },
                                 child: Container(
                                   height: 50,
                                   width: 340,

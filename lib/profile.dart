@@ -8,6 +8,7 @@ import 'package:mbx/profile_update.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 late Map<String, dynamic> userData;
+User? user = FirebaseAuth.instance.currentUser;
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -21,6 +22,8 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     final User? user = _auth.currentUser;
     var userid = user!.uid;
+    bool email = user.email!.isNotEmpty;
+    bool phone = user.phoneNumber!.isNotEmpty;
 
     // getData() async {
     //   // FirebaseFirestore.instance
@@ -67,12 +70,12 @@ class _ProfileState extends State<Profile> {
                           alignment: Alignment.topLeft,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40, left: 20),
-                              child: SvgPicture.asset("assets/arrow.svg"),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 40, left: 20),
+                            //   child: SvgPicture.asset("assets/arrow.svg"),
+                            // ),
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 40, right: 20),
@@ -89,7 +92,7 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 120, left: 25),
+                                  const EdgeInsets.only(top: 120, left: 50),
                               child: Container(
                                 child: Text(snapshot.data!["Fname"],
                                     style: TextStyle(
@@ -120,10 +123,10 @@ class _ProfileState extends State<Profile> {
                           child: Container(
                             height: 130,
                             child: ClipOval(
-                              child: Image.asset(
-                                "assets/dp2.jpg",
-                                fit: BoxFit.cover,
-                              ),
+                              child: snapshot.data!["Profile Pic"] == ""
+                                  ? SvgPicture.asset("assets/male.svg")
+                                  : Image.network(
+                                      snapshot.data!["Profile Pic"]),
                             ),
                           ),
                         )
@@ -153,12 +156,19 @@ class _ProfileState extends State<Profile> {
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text(snapshot.data!["Email"],
-                                  style: TextStyle(
-                                      fontFamily: "Lato",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xfff000000)))
+                              snapshot.data!["Email"] == ""
+                                  ? Text("",
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
+                                  : Text(snapshot.data!["Email"],
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
                             ],
                           )
                         ],
@@ -191,12 +201,19 @@ class _ProfileState extends State<Profile> {
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text("+91-${snapshot.data!["Phone"]}",
-                                  style: TextStyle(
-                                      fontFamily: "Lato",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xfff000000)))
+                              snapshot.data!["Phone"] == ""
+                                  ? Text("",
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
+                                  : Text("+91-${snapshot.data!["Phone"]}",
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
                             ],
                           )
                         ],
@@ -267,7 +284,7 @@ class _ProfileState extends State<Profile> {
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text("Male",
+                              Text(snapshot.data!["Gender"],
                                   style: TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 16,

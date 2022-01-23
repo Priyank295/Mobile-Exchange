@@ -3,13 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mbx/database.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:path/path.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 List<String> imagesUrl = [];
 String Fname = "";
 String Lname = "";
 String Email = "";
+DatabaseMethods detabaseMethods = DatabaseMethods();
+String userId ="";
 
 class ProductDetailPage extends StatefulWidget {
   String DocId;
@@ -22,6 +26,22 @@ class ProductDetailPage extends StatefulWidget {
     this.proSnapshot,
   );
 
+
+  
+
+  createChatRoomandStartConversation(String userName) {
+
+    getChatRoomId(userName, userId);
+
+    List<String> users = [userName, userId];
+    Map<String, dynamic> chatRoomMap ={
+      "users" : users,
+      "chatroomId" :
+    }
+
+    DatabaseMethods().createChatroom(chatRoomId, chatRoomMap)
+  }
+
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
 }
@@ -32,12 +52,19 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       imagesUrl = List.from(widget.proSnapshot.get("Product Photo"));
     });
   }
+  void getUserId(String uid){
+    uid = FirebaseAuth.instance.currentUser!.uid; 
+    
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    
     getImages();
+    getUserId(userId);
+  
   }
 
   @override
@@ -66,7 +93,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   child: Stack(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(top: 40, left: 25),
+                        padding: const EdgeInsets.only(top: 60, left: 25),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(context);
@@ -90,7 +117,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       children: [
                                         Image.network(
                                           e,
-                                          fit: BoxFit.fill,
+                                          // fit: BoxFit.fill,
                                           height: 300,
                                           width: 200,
                                         ),
@@ -609,3 +636,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
     // );
   }
 }
+
+
+getChatRoomId(String a, String b){
+  if(a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)){
+    return "$b\_$a";
+
+  }else{
+    return "$a\_$b";
+  }
+}
+   
