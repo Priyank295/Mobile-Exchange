@@ -4,9 +4,22 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mbx/profile_update.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 late Map<String, dynamic> userData;
+User? user = FirebaseAuth.instance.currentUser;
+var userid = user!.uid;
+bool email = emailIsEmpty();
+bool phone = phoneIsEmpty();
+
+bool emailIsEmpty() {
+  return user!.email!.isNotEmpty;
+}
+
+bool phoneIsEmpty() {
+  return user!.phoneNumber!.isNotEmpty;
+}
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -18,9 +31,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    final User? user = _auth.currentUser;
-    var userid = user!.uid;
-
     // getData() async {
     //   // FirebaseFirestore.instance
     //   //     .collection("users")
@@ -47,7 +57,7 @@ class _ProfileState extends State<Profile> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
-            .doc(userid)
+            .doc(user!.uid)
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -66,16 +76,21 @@ class _ProfileState extends State<Profile> {
                           alignment: Alignment.topLeft,
                         ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 40, left: 20),
-                              child: SvgPicture.asset("assets/arrow.svg"),
-                            ),
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 40, left: 20),
+                            //   child: SvgPicture.asset("assets/arrow.svg"),
+                            // ),
                             Padding(
                               padding:
                                   const EdgeInsets.only(top: 40, right: 20),
-                              child: SvgPicture.asset("assets/edit2.svg"),
+                              child: GestureDetector(
+                                  onTap: () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (ctx) => ProfileUpdate())),
+                                  child: SvgPicture.asset("assets/edit2.svg")),
                             ),
                           ],
                         ),
@@ -83,7 +98,7 @@ class _ProfileState extends State<Profile> {
                           children: [
                             Padding(
                               padding:
-                                  const EdgeInsets.only(top: 120, left: 25),
+                                  const EdgeInsets.only(top: 120, left: 50),
                               child: Container(
                                 child: Text(snapshot.data!["Fname"],
                                     style: TextStyle(
@@ -114,10 +129,10 @@ class _ProfileState extends State<Profile> {
                           child: Container(
                             height: 130,
                             child: ClipOval(
-                              child: Image.asset(
-                                "assets/dp2.jpg",
-                                fit: BoxFit.cover,
-                              ),
+                              child: snapshot.data!["Profile Pic"] == ""
+                                  ? SvgPicture.asset("assets/male.svg")
+                                  : Image.network(
+                                      snapshot.data!["Profile Pic"]),
                             ),
                           ),
                         )
@@ -141,18 +156,25 @@ class _ProfileState extends State<Profile> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(snapshot.data!["Email"],
+                              Text("Email",
                                   style: TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text("priyank@gmail.com",
-                                  style: TextStyle(
-                                      fontFamily: "Lato",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xfff000000)))
+                              snapshot.data!["Email"] == ""
+                                  ? Text("",
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
+                                  : Text(snapshot.data!["Email"],
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
                             ],
                           )
                         ],
@@ -185,12 +207,19 @@ class _ProfileState extends State<Profile> {
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text("+91-${snapshot.data!["Phone"]}",
-                                  style: TextStyle(
-                                      fontFamily: "Lato",
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Color(0xfff000000)))
+                              snapshot.data!["Phone"] == ""
+                                  ? Text("",
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
+                                  : Text("+91-${snapshot.data!["Phone"]}",
+                                      style: TextStyle(
+                                          fontFamily: "Lato",
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xfff000000)))
                             ],
                           )
                         ],
@@ -261,7 +290,7 @@ class _ProfileState extends State<Profile> {
                                       fontSize: 10,
                                       fontWeight: FontWeight.bold,
                                       color: Color(0xfffABABAB))),
-                              Text("Male",
+                              Text(snapshot.data!["Gender"],
                                   style: TextStyle(
                                       fontFamily: "Lato",
                                       fontSize: 16,

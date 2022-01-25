@@ -3,14 +3,19 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:http/http.dart';
+import 'package:mbx/checkEmail.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/home.dart';
+import 'package:mbx/homepage.dart';
+import 'package:mbx/loadingScreen.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
 import 'package:mbx/product_detail_page.dart';
 import 'package:mbx/profile.dart';
+import 'package:mbx/profile_update.dart';
+import 'package:mbx/resetPasswordScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './otppage.dart';
 import 'package:mbx/register.dart';
@@ -19,6 +24,7 @@ import 'package:firebase_core/firebase_core.dart';
 import './otppage.dart';
 import './register.dart';
 import './user.dart';
+import 'chatScreen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

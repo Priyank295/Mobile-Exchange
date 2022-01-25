@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mbx/cart.dart';
+import 'package:mbx/chatList.dart';
 import 'package:mbx/edit_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/loginpage.dart';
@@ -14,6 +14,8 @@ import 'package:mbx/profile.dart';
 import 'package:mbx/searchpage.dart';
 import './home.dart';
 import './sellpage.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({Key? key}) : super(key: key);
@@ -47,7 +49,7 @@ class _NavBarState extends State<NavBar> {
     Home(),
     Search(),
     SellPage(),
-    Cart(),
+    ChatList(),
     Profile(),
   ];
   PageController controller = PageController();
@@ -108,10 +110,10 @@ class _NavBarState extends State<NavBar> {
                     //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   ),
                   GButton(
-                    icon: LineIcons.shoppingCart,
+                    icon: LineAwesomeIcons.sms,
                     iconColor: Colors.black,
                     iconActiveColor: Colors.grey,
-                    text: 'Cart',
+                    text: 'Chat',
                     textColor: Colors.grey,
                     backgroundColor: Colors.grey.withOpacity(0.2),
                     //iconSize: 24,
