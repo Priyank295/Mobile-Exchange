@@ -21,8 +21,6 @@ enum SignUpStatus {
   SHOW_PHONE_SIGNUP,
 }
 
-String uid = "";
-
 var currentState = SignUpStatus.SHOW_EMAIL_SIGNUP;
 
 class RegisterPage extends StatefulWidget {
@@ -327,6 +325,8 @@ class _RegisterPageState extends State<RegisterPage> {
                             db.doc(value.user!.uid).set({
                               "Email": email.text,
                               "Password": _pass.text,
+                              "Uid": value.user!.uid,
+                              "Phone": "",
                             }).then((value) {
                               email.clear();
                               _pass.clear();

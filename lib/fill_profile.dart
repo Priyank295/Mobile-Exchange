@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:mbx/homepage.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 
@@ -15,7 +16,9 @@ import 'loadingScreen.dart';
 enum Gender { male, female }
 bool _loading = false;
 
-User? user = FirebaseAuth.instance.currentUser;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+
+User? user = _auth.currentUser;
 
 class Fill_Profile extends StatefulWidget {
   @override
@@ -29,8 +32,6 @@ class _Fill_ProfileState extends State<Fill_Profile> {
   final TextEditingController _address = TextEditingController();
   final TextEditingController _zip = TextEditingController();
 
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  var firebaseUser = FirebaseAuth.instance.currentUser;
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
   int _radioSelected = 1;

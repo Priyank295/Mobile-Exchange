@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:custom_check_box/custom_check_box.dart';
+import 'package:mbx/homepage.dart';
 import 'package:mbx/loadingScreen.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
@@ -1257,7 +1258,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     checkLogin();
-    _auth.signOut();
+    // _auth.signOut();
     setState(() {
       _loading = false;
     });

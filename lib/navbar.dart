@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get_connect.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:mbx/chat.dart';
+import 'package:mbx/chatList.dart';
 import 'package:mbx/edit_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/loginpage.dart';
@@ -49,7 +49,7 @@ class _NavBarState extends State<NavBar> {
     Home(),
     Search(),
     SellPage(),
-    Cart(),
+    ChatList(),
     Profile(),
   ];
   PageController controller = PageController();

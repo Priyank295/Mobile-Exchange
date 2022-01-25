@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mbx/chatScreen.dart';
 import 'package:mbx/database.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:path/path.dart';
+import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 List<String> imagesUrl = [];
@@ -13,7 +15,7 @@ String Fname = "";
 String Lname = "";
 String Email = "";
 DatabaseMethods detabaseMethods = DatabaseMethods();
-String userId ="";
+User? user = FirebaseAuth.instance.currentUser;
 
 class ProductDetailPage extends StatefulWidget {
   String DocId;
@@ -26,21 +28,20 @@ class ProductDetailPage extends StatefulWidget {
     this.proSnapshot,
   );
 
+  //Create chatroom for user and seller
+  // createChatRoomandStartConversation({required String userName}) {
+  //   String chatRoomId = getChatRoomId(userName, user!.uid);
 
-  
+  //   List<String> users = [userName, user!.uid];
+  //   Map<String, dynamic> chatRoomMap = {
+  //     "users": users,
+  //     "chatroomId": chatRoomId
+  //   };
 
-  createChatRoomandStartConversation(String userName) {
+  //   DatabaseMethods().createChatroom(chatRoomId, chatRoomMap);
 
-    getChatRoomId(userName, userId);
-
-    List<String> users = [userName, userId];
-    Map<String, dynamic> chatRoomMap ={
-      "users" : users,
-      "chatroomId" :
-    }
-
-    DatabaseMethods().createChatroom(chatRoomId, chatRoomMap)
-  }
+  //   Get.to(ChatScreen());
+  // }
 
   @override
   _ProductDetailPageState createState() => _ProductDetailPageState();
@@ -52,19 +53,38 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       imagesUrl = List.from(widget.proSnapshot.get("Product Photo"));
     });
   }
-  void getUserId(String uid){
-    uid = FirebaseAuth.instance.currentUser!.uid; 
-    
+
+  void getUserId(String uid) {
+    uid = FirebaseAuth.instance.currentUser!.uid;
   }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
+
     getImages();
-    getUserId(userId);
-  
+    getUserId(user!.uid);
+  }
+
+  createChatRoomandStartConversation({required String userName}) {
+    print(userName);
+    print(user!.uid);
+    if (userName != user!.uid) {
+      String chatRoomId = getChatRoomId(userName, user!.uid);
+
+      List<String> users = [userName, user!.uid];
+      Map<String, dynamic> chatRoomMap = {
+        "users": users,
+        "chatroomId": chatRoomId
+      };
+
+      DatabaseMethods().createChatroom(chatRoomId, chatRoomMap);
+
+      Get.to(ChatScreen(chatRoomId, userName));
+    } else {
+      print("You cannot send message to yourself");
+    }
   }
 
   @override
@@ -308,7 +328,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                         horizontal: 30, vertical: 30),
                                     child: Center(
                                       child: InkWell(
-                                        onTap: () {},
+                                        onTap: () {
+                                          createChatRoomandStartConversation(
+                                              userName: snapshot.data!["Uid"]);
+                                        },
                                         child: Container(
                                           height: 50,
                                           width: 340,
@@ -637,13 +660,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
   }
 }
 
-
-getChatRoomId(String a, String b){
-  if(a.substring(0,1).codeUnitAt(0) > b.substring(0,1).codeUnitAt(0)){
+getChatRoomId(String a, String b) {
+  if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
     return "$b\_$a";
-
-  }else{
+  } else {
     return "$a\_$b";
   }
 }
-   

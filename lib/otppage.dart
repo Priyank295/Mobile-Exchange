@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mbx/fill_profile.dart';
+import 'package:mbx/homepage.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 import 'package:otp_text_field/otp_text_field.dart';
@@ -328,7 +329,7 @@ class _OtpPage2State extends State<OtpPage2> {
             _verificationCode = verificationId;
           });
         },
-        timeout: Duration(seconds: 60));
+        timeout: Duration(seconds: 30));
   }
 
   // Future<void> _login() async {

@@ -7,6 +7,7 @@ import 'package:mbx/checkEmail.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/home.dart';
+import 'package:mbx/homepage.dart';
 import 'package:mbx/loadingScreen.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
@@ -65,9 +66,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser == null
-          ? FirstPage()
-          : ChatScreen(),
+      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : NavBar(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),

@@ -9,6 +9,17 @@ import 'package:mbx/profile_update.dart';
 FirebaseAuth _auth = FirebaseAuth.instance;
 late Map<String, dynamic> userData;
 User? user = FirebaseAuth.instance.currentUser;
+var userid = user!.uid;
+bool email = emailIsEmpty();
+bool phone = phoneIsEmpty();
+
+bool emailIsEmpty() {
+  return user!.email!.isNotEmpty;
+}
+
+bool phoneIsEmpty() {
+  return user!.phoneNumber!.isNotEmpty;
+}
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
@@ -20,11 +31,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
-    final User? user = _auth.currentUser;
-    var userid = user!.uid;
-    bool email = user.email!.isNotEmpty;
-    bool phone = user.phoneNumber!.isNotEmpty;
-
     // getData() async {
     //   // FirebaseFirestore.instance
     //   //     .collection("users")
@@ -51,7 +57,7 @@ class _ProfileState extends State<Profile> {
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
-            .doc(userid)
+            .doc(user!.uid)
             .snapshots(),
         builder:
             (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
