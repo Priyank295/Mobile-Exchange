@@ -42,4 +42,11 @@ class DatabaseMethods {
   getUserByUid(String uid, String userName) async {
     return await FirebaseFirestore.instance.collection("users").doc(uid).get();
   }
+
+  getProductsBySearch(String searchField) async {
+    return await FirebaseFirestore.instance
+        .collection("Products")
+        .where("Product Name", isEqualTo: searchField)
+        .get();
+  }
 }

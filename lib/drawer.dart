@@ -30,6 +30,9 @@ class _DrawerState extends State<Drawer> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      close = false;
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       body: SliderMenuContainer(

@@ -30,7 +30,7 @@ class _ChatListState extends State<ChatList> {
                     String userName = snapshot.data!.docs[index]["chatroomId"]
                         .toString()
                         .replaceAll("_", "")
-                        .replaceAll("${user!.uid}", "");
+                        .replaceAll(user!.uid, "");
 
                     DatabaseMethods()
                         .getUserByUid(user!.uid, userName)
@@ -61,7 +61,7 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffE7E3F5),
+      // backgroundColor: Color(0xfffE7E3F5),
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
