@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mbx/chatScreen.dart';
 import 'package:mbx/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,7 +31,7 @@ class _ChatListState extends State<ChatList> {
                     String userName = snapshot.data!.docs[index]["chatroomId"]
                         .toString()
                         .replaceAll("_", "")
-                        .replaceAll("${user!.uid}", "");
+                        .replaceAll(user!.uid, "");
 
                     DatabaseMethods()
                         .getUserByUid(user!.uid, userName)
@@ -61,7 +62,7 @@ class _ChatListState extends State<ChatList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xfffE7E3F5),
+      // backgroundColor: Color(0xfffE7E3F5),
       appBar: AppBar(
         backgroundColor: Colors.white,
         centerTitle: true,
@@ -98,14 +99,14 @@ class ChatRoomTile extends StatelessWidget {
                   height: 55,
                   alignment: Alignment.center,
                   child: ClipOval(
-                    child: Image.asset("assets/dp2.jpg"),
+                    child: SvgPicture.asset("assets/male.svg"),
                   ),
                 ),
                 SizedBox(
                   width: 10,
                 ),
                 Text(
-                  userName,
+                  chatUser,
                   style: TextStyle(
                       fontFamily: "Lato",
                       fontSize: 18,

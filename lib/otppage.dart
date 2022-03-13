@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:mbx/fill_profile.dart';
-import 'package:mbx/homepage.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 import 'package:otp_text_field/otp_text_field.dart';

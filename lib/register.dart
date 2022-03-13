@@ -327,6 +327,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               "Password": _pass.text,
                               "Uid": value.user!.uid,
                               "Phone": "",
+                              "Profile Pic": "",
                             }).then((value) {
                               email.clear();
                               _pass.clear();

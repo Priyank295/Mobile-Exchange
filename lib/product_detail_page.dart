@@ -118,10 +118,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                           onTap: () {
                             Navigator.pop(context);
                           },
-                          child: SvgPicture.asset(
-                            "assets/arrow.svg",
-                            height: 20,
-                            color: Colors.black,
+                          child: InkWell(
+                            onTap: () => Navigator.pop(context),
+                            child: SvgPicture.asset(
+                              "assets/arrow.svg",
+                              height: 20,
+                              color: Colors.black,
+                            ),
                           ),
                         ),
                       ),

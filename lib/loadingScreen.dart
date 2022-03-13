@@ -12,7 +12,7 @@ class LoadingScreen extends StatelessWidget {
         Container(
           height: double.infinity,
           width: double.infinity,
-          decoration: BoxDecoration(color: Colors.black.withOpacity(0.1)),
+          decoration: BoxDecoration(color: Colors.white),
           child: Center(
               child: Lottie.asset("assets/loading.json",
                   frameRate: FrameRate(60), height: 120)),

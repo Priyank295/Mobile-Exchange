@@ -7,7 +7,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:http/http.dart';
-import 'package:mbx/homepage.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 

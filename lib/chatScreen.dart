@@ -27,6 +27,7 @@ class _ChatScreenState extends State<ChatScreen> {
             .collection("ChatRoom")
             .doc(widget.chatRoomId)
             .collection("chats")
+            .orderBy('time', descending: false)
             .snapshots(),
         builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
           return snapshot.hasData
@@ -72,112 +73,115 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xfffF9F9F9),
-          // title: Text(
-          //   widget.userName,
-          //   style: TextStyle(
-          //     color: Colors.black,
-          //     fontSize: 20,
-          //     fontFamily: "Lato",
-          //     fontWeight: FontWeight.bold,
-          //   ),
-          // ),
+      appBar: AppBar(
+        backgroundColor: Color(0xfffF9F9F9),
+        // title: Text(
+        //   widget.userName,
+        //   style: TextStyle(
+        //     color: Colors.black,
+        //     fontSize: 20,
+        //     fontFamily: "Lato",
+        //     fontWeight: FontWeight.bold,
+        //   ),
+        // ),
 
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                // margin: EdgeInsets.only(left: 15),
-                width: 40,
-                height: 40,
-                child: ClipOval(
-                  child: Image.asset("assets/dp2.jpg"),
-                ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(widget.userName,
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: "Lato",
-                      // fontWeight: FontWeight.bold,
-                      fontSize: 17)),
-            ],
-          ),
-          leading: Container(
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              // margin: EdgeInsets.only(left: 15),
+              width: 40,
+              height: 40,
+              child: ClipOval(child: SvgPicture.asset("assets/male.svg")),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Text(widget.userName,
+                style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: "Lato",
+                    // fontWeight: FontWeight.bold,
+                    fontSize: 17)),
+          ],
+        ),
+        leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Container(
             margin: EdgeInsets.only(left: 8),
             child: Icon(
               Icons.arrow_back,
               color: Colors.black,
             ),
           ),
-          leadingWidth: 25,
         ),
-        body: Stack(
-          children: [
-            SvgPicture.asset(
-              "assets/back.svg",
-            ),
-            ChatMessageList(),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Container(
-                height: 60,
-                width: double.infinity,
-                color: Colors.white,
-                child: Row(
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(left: 15),
-                      decoration: BoxDecoration(
-                          color: Color(0xfffF9F9F9),
-                          border: Border.all(
-                            width: 1,
-                            color: Color(0xfffDFE4EA),
-                          ),
-                          borderRadius: BorderRadius.circular(8)),
-                      height: 48,
-                      width: 287,
-                      child: TextFormField(
-                        controller: messageController,
-                        decoration: InputDecoration(
-                          hintText: "Type your message",
-                          border: InputBorder.none,
-                          hintStyle: TextStyle(fontFamily: "Lato"),
+        leadingWidth: 25,
+      ),
+      body: Stack(
+        children: [
+          // SvgPicture.asset(
+          //   "assets/back.svg",
+          // ),
 
-                          // prefixIcon: SvgPicture.asset(
-                          //   "assets/image.svg",
-                          // ),
-                          contentPadding: EdgeInsets.only(left: 15),
+          ChatMessageList(),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Container(
+              height: 60,
+              width: double.infinity,
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Container(
+                    margin: EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                        color: Color(0xfffF9F9F9),
+                        border: Border.all(
+                          width: 1,
+                          color: Color(0xfffDFE4EA),
                         ),
+                        borderRadius: BorderRadius.circular(8)),
+                    height: 48,
+                    width: 287,
+                    child: TextFormField(
+                      controller: messageController,
+                      decoration: InputDecoration(
+                        hintText: "Type your message",
+                        border: InputBorder.none,
+                        hintStyle: TextStyle(fontFamily: "Lato"),
+
+                        // prefixIcon: SvgPicture.asset(
+                        //   "assets/image.svg",
+                        // ),
+                        contentPadding: EdgeInsets.only(left: 15),
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        print(widget.chatRoomId);
-                        sendMessage();
-                      },
-                      child: Container(
-                        margin: EdgeInsets.only(left: 10),
-                        height: 48,
-                        width: 65,
-                        decoration: BoxDecoration(
-                          color: Color(0xfff7E72F2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Center(
-                          child: SvgPicture.asset("assets/send.svg"),
-                        ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      print(widget.chatRoomId);
+                      sendMessage();
+                    },
+                    child: Container(
+                      margin: EdgeInsets.only(left: 10),
+                      height: 48,
+                      width: 65,
+                      decoration: BoxDecoration(
+                        color: Color(0xfff7E72F2),
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    )
-                  ],
-                ),
+                      child: Center(
+                        child: SvgPicture.asset("assets/send.svg"),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            )
-          ],
-        ));
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 

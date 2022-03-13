@@ -16,6 +16,8 @@ import 'package:get/get.dart';
 import './product_added.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'loadingScreen.dart';
+
 class SellPage extends StatefulWidget {
   @override
   _SellPageState createState() => _SellPageState();
@@ -49,16 +51,27 @@ class _SellPageState extends State<SellPage> {
 
     if (permissionStatus.isGranted) {
       final List<XFile>? selectedImages = await _picker.pickMultiImage();
-      if (selectedImages!.isNotEmpty) {
+      if (selectedImages != null) {
         imagefileList!.addAll(selectedImages);
         print("Image List Length:" + imagefileList!.length.toString());
-        setState(() {});
+        setState(() {
+          _isLoading = true;
+        });
         if (imagefileList != null) {
+          setState(() {
+            _isLoading = true;
+          });
           uploadFiles(imagefileList!, imgUrl);
+
+          setState(() {
+            _isLoading = false;
+          });
           // setState(() {
           //   imgUrl =
           // });
         }
+      } else {
+        print("no selection");
       }
 
       //   if (image != null) {
@@ -104,151 +117,318 @@ class _SellPageState extends State<SellPage> {
   @override
   Widget build(BuildContext context) {
     User? userID = FirebaseAuth.instance.currentUser;
-    return Scaffold(
-      backgroundColor: Color(0xfffF1F4FB),
-      body: Flex(
-        direction: Axis.vertical,
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.start,
-                  //   children: [
-                  //     Padding(
-                  //       padding: const EdgeInsets.only(left: 20, top: 60),
-                  //       child: SvgPicture.asset(
-                  //         'assets/arrow.svg',
-                  //         color: Colors.black,
-                  //         height: 18,
-                  //         width: 18,
-                  //       ),
-                  //     ),
-                  //   ],
-                  // ),
-                  Column(
-                    children: [
-                      if (imgUrl.isNotEmpty)
-                        Stack(children: [
-                          Container(
-                            margin: EdgeInsets.only(top: 50),
-                            height: 270,
-                            width: 270,
-                            child: CarouselSlider(
-                              items: imgUrl
-                                  .map(
-                                    (e) => ClipRRect(
-                                      borderRadius: BorderRadius.circular(8),
-                                      child: Container(
-                                        child: Stack(
-                                          children: [
-                                            Image.network(
-                                              e,
-                                              fit: BoxFit.cover,
-                                              height: 270,
-                                              width: 200,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                              options: CarouselOptions(
-                                autoPlay: true,
-                                height: 270,
-                                reverse: false,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            top: 40,
-                            height: 20,
-                            child: InkWell(
-                              onTap: () {
-                                setState(() {
-                                  imgUrl.clear();
-                                });
-                              },
-                              child: Icon(
-                                Icons.close,
-                                color: Color(0xfff6342E8),
-                                size: 40,
-                              ),
-                            ),
-                          ),
-                        ])
-                      else
-                        GestureDetector(
-                          onTap: getImage,
-                          child: Container(
-                            child: Lottie.asset(
-                              'assets/image.json',
-                              height: 270,
-                              width: 270,
-                              frameRate: FrameRate(60),
-                            ),
-                          ),
-                        ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        "UPLOAD YOUR IMAGE",
-                        style: TextStyle(
-                            fontFamily: 'Lato', fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(40),
-                      color: Colors.white,
-                    ),
-                    width: double.infinity,
+    return _isLoading
+        ? LoadingScreen()
+        : Scaffold(
+            backgroundColor: Color(0xfffF1F4FB),
+            body: Flex(
+              direction: Axis.vertical,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.start,
+                        //   children: [
+                        //     Padding(
+                        //       padding: const EdgeInsets.only(left: 20, top: 60),
+                        //       child: SvgPicture.asset(
+                        //         'assets/arrow.svg',
+                        //         color: Colors.black,
+                        //         height: 18,
+                        //         width: 18,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
+                        Column(
                           children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20,
-                                ),
+                            if (imgUrl.isNotEmpty)
+                              Stack(children: [
                                 Container(
-                                  margin: EdgeInsets.only(left: 39),
-                                  child: Text(
-                                    "Product Name",
-                                    style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
+                                  margin: EdgeInsets.only(top: 50),
+                                  height: 270,
+                                  width: 270,
+                                  child: CarouselSlider(
+                                    items: imgUrl
+                                        .map(
+                                          (e) => ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(8),
+                                            child: Container(
+                                              child: Stack(
+                                                children: [
+                                                  Image.network(
+                                                    e,
+                                                    fit: BoxFit.cover,
+                                                    height: 270,
+                                                    width: 200,
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                        .toList(),
+                                    options: CarouselOptions(
+                                      autoPlay: true,
+                                      height: 270,
+                                      reverse: false,
+                                    ),
                                   ),
                                 ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 30),
-                                  height: 50,
-                                  width: 170,
-                                  child: TextFormField(
-                                    onChanged: (value) {
+                                Positioned(
+                                  top: 40,
+                                  height: 20,
+                                  child: InkWell(
+                                    onTap: () {
                                       setState(() {
-                                        _isName = value.isNotEmpty;
+                                        imgUrl.clear();
                                       });
                                     },
-                                    controller: _pName,
+                                    child: Icon(
+                                      Icons.close,
+                                      color: Color(0xfff6342E8),
+                                      size: 40,
+                                    ),
+                                  ),
+                                ),
+                              ])
+                            else
+                              GestureDetector(
+                                onTap: getImage,
+                                child: Container(
+                                  child: Lottie.asset(
+                                    'assets/image.json',
+                                    height: 270,
+                                    width: 270,
+                                    frameRate: FrameRate(60),
+                                  ),
+                                ),
+                              ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              "UPLOAD YOUR IMAGE",
+                              style: TextStyle(
+                                  fontFamily: 'Lato',
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+
+                        SizedBox(
+                          height: 20,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            color: Colors.white,
+                          ),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 39),
+                                        child: Text(
+                                          "Product Name",
+                                          style: TextStyle(
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 30),
+                                        height: 50,
+                                        width: 170,
+                                        child: TextFormField(
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _isName = value.isNotEmpty;
+                                            });
+                                          },
+                                          controller: _pName,
+                                          decoration: InputDecoration(
+                                            suffixIcon: _isName
+                                                ? SizedBox()
+                                                : Padding(
+                                                    padding:
+                                                        EdgeInsets.all(12.0),
+                                                    child: SvgPicture.asset(
+                                                        "assets/WarningCircle.svg"),
+                                                  ),
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                              minHeight: 24,
+                                              minWidth: 24,
+                                            ),
+                                            hintText: "Enter Product Name",
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xFFFAEAEAE),
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                color: Color(0xFFFD2D2D2),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFF6342E8),
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                EdgeInsets.only(left: 10),
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: "Lato",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 39),
+                                        child: Text(
+                                          "Price",
+                                          style: TextStyle(
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 30),
+                                        height: 50,
+                                        width: 131,
+                                        child: TextFormField(
+                                          controller: _price,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            suffixIcon: _isPrice
+                                                ? SizedBox()
+                                                : Padding(
+                                                    padding:
+                                                        EdgeInsets.all(12.0),
+                                                    child: SvgPicture.asset(
+                                                        "assets/WarningCircle.svg"),
+                                                  ),
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                              minHeight: 14,
+                                              minWidth: 14,
+                                            ),
+                                            prefixIcon: Container(
+                                              margin: EdgeInsets.only(
+                                                  left: 8, right: 8),
+                                              child: SvgPicture.asset(
+                                                "assets/rupee.svg",
+                                                height: 13,
+                                                width: 13,
+                                              ),
+                                            ),
+                                            hintText: "Price",
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xFFFAEAEAE),
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                color: Color(0xFFFD2D2D2),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFF6342E8),
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                EdgeInsets.only(left: 10),
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: "Lato",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 39),
+                                child: Text(
+                                  "Phone Model",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Lato",
+                                      fontSize: 14),
+                                ),
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: Container(
+                                  height: 50,
+                                  width: double.infinity,
+                                  child: TextFormField(
+                                    controller: _model,
+                                    // validator: (val) {
+                                    //   if (!isEmail(val!) && !isPhone(val)) {
+                                    //     setState(() {
+                                    //       _isEmail = false;
+                                    //     });
+                                    //   }
+                                    // },
+
                                     decoration: InputDecoration(
-                                      suffixIcon: _isName
+                                      // prefixIcon: Padding(
+                                      //   padding: const EdgeInsets.all(10.0),
+                                      //   child: SvgPicture.asset(
+                                      //     "assets/mail.svg",
+                                      //   ),
+                                      // ),
+                                      suffixIcon: _isModel
                                           ? SizedBox()
                                           : Padding(
                                               padding: EdgeInsets.all(12.0),
@@ -260,7 +440,7 @@ class _SellPageState extends State<SellPage> {
                                         minHeight: 24,
                                         minWidth: 24,
                                       ),
-                                      hintText: "Enter Product Name",
+                                      hintText: "Enter Phone Model Name",
                                       hintStyle: const TextStyle(
                                         color: Color(0xFFFAEAEAE),
                                         fontFamily: "Lato",
@@ -285,36 +465,47 @@ class _SellPageState extends State<SellPage> {
                                     ),
                                   ),
                                 ),
-                              ],
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 20,
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 39),
+                                child: Text(
+                                  "Description",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: "Lato",
+                                      fontSize: 14),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 39),
-                                  child: Text(
-                                    "Price",
-                                    style: TextStyle(
-                                        fontFamily: "Lato",
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(left: 30),
-                                  height: 50,
-                                  width: 131,
+                              ),
+                              SizedBox(height: 5),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
+                                child: Container(
+                                  height: 49,
+                                  width: double.infinity,
                                   child: TextFormField(
-                                    controller: _price,
-                                    keyboardType: TextInputType.number,
+                                    controller: _description,
+                                    keyboardType: TextInputType.multiline,
+                                    maxLines: null,
+                                    // validator: (val) {
+                                    //   if (!isEmail(val!) && !isPhone(val)) {
+                                    //     setState(() {
+                                    //       _isEmail = false;
+                                    //     });
+                                    //   }
+                                    // },
+
                                     decoration: InputDecoration(
-                                      suffixIcon: _isPrice
+                                      // prefixIcon: Padding(
+                                      //   padding: const EdgeInsets.all(10.0),
+                                      //   child: SvgPicture.asset(
+                                      //     "assets/mail.svg",
+                                      //   ),
+                                      // ),
+                                      suffixIcon: _isDes
                                           ? SizedBox()
                                           : Padding(
                                               padding: EdgeInsets.all(12.0),
@@ -323,19 +514,12 @@ class _SellPageState extends State<SellPage> {
                                             ),
                                       prefixIconConstraints:
                                           const BoxConstraints(
-                                        minHeight: 14,
-                                        minWidth: 14,
+                                        minHeight: 24,
+                                        minWidth: 24,
                                       ),
-                                      prefixIcon: Container(
-                                        margin:
-                                            EdgeInsets.only(left: 8, right: 8),
-                                        child: SvgPicture.asset(
-                                          "assets/rupee.svg",
-                                          height: 13,
-                                          width: 13,
-                                        ),
-                                      ),
-                                      hintText: "Price",
+                                      hintText:
+                                          "Write Description about your phone",
+
                                       hintStyle: const TextStyle(
                                         color: Color(0xFFFAEAEAE),
                                         fontFamily: "Lato",
@@ -360,233 +544,83 @@ class _SellPageState extends State<SellPage> {
                                     ),
                                   ),
                                 ),
-                              ],
-                            )
-                          ],
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 39),
-                          child: Text(
-                            "Phone Model",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Lato",
-                                fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Container(
-                            height: 50,
-                            width: double.infinity,
-                            child: TextFormField(
-                              controller: _model,
-                              // validator: (val) {
-                              //   if (!isEmail(val!) && !isPhone(val)) {
-                              //     setState(() {
-                              //       _isEmail = false;
-                              //     });
-                              //   }
-                              // },
-
-                              decoration: InputDecoration(
-                                // prefixIcon: Padding(
-                                //   padding: const EdgeInsets.all(10.0),
-                                //   child: SvgPicture.asset(
-                                //     "assets/mail.svg",
-                                //   ),
-                                // ),
-                                suffixIcon: _isModel
-                                    ? SizedBox()
-                                    : Padding(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: SvgPicture.asset(
-                                            "assets/WarningCircle.svg"),
-                                      ),
-                                prefixIconConstraints: const BoxConstraints(
-                                  minHeight: 24,
-                                  minWidth: 24,
-                                ),
-                                hintText: "Enter Phone Model Name",
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFFAEAEAE),
-                                  fontFamily: "Lato",
-                                  fontSize: 12,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFFFD2D2D2),
-                                  ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFF6342E8),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.only(left: 10),
                               ),
-                              style: const TextStyle(
-                                fontFamily: "Lato",
-                                fontSize: 14,
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 39),
-                          child: Text(
-                            "Description",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontFamily: "Lato",
-                                fontSize: 14),
-                          ),
-                        ),
-                        SizedBox(height: 5),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Container(
-                            height: 49,
-                            width: double.infinity,
-                            child: TextFormField(
-                              controller: _description,
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              // validator: (val) {
-                              //   if (!isEmail(val!) && !isPhone(val)) {
-                              //     setState(() {
-                              //       _isEmail = false;
-                              //     });
-                              //   }
-                              // },
-
-                              decoration: InputDecoration(
-                                // prefixIcon: Padding(
-                                //   padding: const EdgeInsets.all(10.0),
-                                //   child: SvgPicture.asset(
-                                //     "assets/mail.svg",
-                                //   ),
-                                // ),
-                                suffixIcon: _isDes
-                                    ? SizedBox()
-                                    : Padding(
-                                        padding: EdgeInsets.all(12.0),
-                                        child: SvgPicture.asset(
-                                            "assets/WarningCircle.svg"),
-                                      ),
-                                prefixIconConstraints: const BoxConstraints(
-                                  minHeight: 24,
-                                  minWidth: 24,
-                                ),
-                                hintText: "Write Description about your phone",
-
-                                hintStyle: const TextStyle(
-                                  color: Color(0xFFFAEAEAE),
-                                  fontFamily: "Lato",
-                                  fontSize: 12,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8),
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFFFD2D2D2),
-                                  ),
-                                ),
-                                focusedBorder: const OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Color(0xFFF6342E8),
-                                  ),
-                                ),
-                                contentPadding: EdgeInsets.only(left: 10),
-                              ),
-                              style: const TextStyle(
-                                fontFamily: "Lato",
-                                fontSize: 14,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 30),
-                          child: Center(
-                            child: InkWell(
-                              onTap: () {
-                                _pName.text.isEmpty
-                                    ? _isName = false
-                                    : _isName = true;
-                                _model.text.isEmpty
-                                    ? _isModel = false
-                                    : _isModel = true;
-                                _price.text.isEmpty
-                                    ? _isPrice = false
-                                    : _isPrice = true;
-                                _description.text.isEmpty
-                                    ? _isDes = false
-                                    : _isDes = true;
-
-                                if (_isName == false ||
-                                    _isDes == false ||
-                                    _isModel == false ||
-                                    _isPrice == false) {
-                                } else {
-                                  // uploadProduct();
-                                  newUploadProduct();
-                                }
-                              },
-                              child: Container(
-                                height: 54,
-                                width: 340,
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFF6342E8),
-                                  borderRadius: BorderRadius.circular(56),
-                                ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 30),
                                 child: Center(
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        'assets/cart.svg',
-                                        color: Colors.white,
-                                        height: 24,
-                                        width: 24,
+                                  child: InkWell(
+                                    onTap: () {
+                                      _pName.text.isEmpty
+                                          ? _isName = false
+                                          : _isName = true;
+                                      _model.text.isEmpty
+                                          ? _isModel = false
+                                          : _isModel = true;
+                                      _price.text.isEmpty
+                                          ? _isPrice = false
+                                          : _isPrice = true;
+                                      _description.text.isEmpty
+                                          ? _isDes = false
+                                          : _isDes = true;
+
+                                      if (_isName == false ||
+                                          _isDes == false ||
+                                          _isModel == false ||
+                                          _isPrice == false) {
+                                      } else {
+                                        // uploadProduct();
+                                        newUploadProduct();
+                                      }
+                                    },
+                                    child: Container(
+                                      height: 54,
+                                      width: 340,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xFFF6342E8),
+                                        borderRadius: BorderRadius.circular(56),
                                       ),
-                                      SizedBox(width: 5),
-                                      Text(
-                                        "PROCEED TO SELL",
-                                        style: TextStyle(
-                                          fontFamily: "Lato",
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white,
+                                      child: Center(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            SvgPicture.asset(
+                                              'assets/cart.svg',
+                                              color: Colors.white,
+                                              height: 24,
+                                              width: 24,
+                                            ),
+                                            SizedBox(width: 5),
+                                            Text(
+                                              "PROCEED TO SELL",
+                                              style: TextStyle(
+                                                fontFamily: "Lato",
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
-    );
+          );
   }
 
   // Future<void> uploadProduct() async {
@@ -633,6 +667,9 @@ class _SellPageState extends State<SellPage> {
 
   Future<List<String>> uploadFiles(
       List<XFile> _images, List<String> url) async {
+    setState(() {
+      _isLoading = true;
+    });
     List<String> imagesUrls = [];
 
     _images.forEach((_image) async {
@@ -648,6 +685,9 @@ class _SellPageState extends State<SellPage> {
       });
     });
     print(imagesUrls);
+    setState(() {
+      _isLoading = false;
+    });
     return imagesUrls;
   }
 }
