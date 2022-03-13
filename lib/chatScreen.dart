@@ -92,9 +92,7 @@ class _ChatScreenState extends State<ChatScreen> {
               // margin: EdgeInsets.only(left: 15),
               width: 40,
               height: 40,
-              child: ClipOval(
-                child: Image.asset("assets/dp2.jpg"),
-              ),
+              child: ClipOval(child: SvgPicture.asset("assets/male.svg")),
             ),
             SizedBox(
               width: 10,
@@ -107,11 +105,14 @@ class _ChatScreenState extends State<ChatScreen> {
                     fontSize: 17)),
           ],
         ),
-        leading: Container(
-          margin: EdgeInsets.only(left: 8),
-          child: Icon(
-            Icons.arrow_back,
-            color: Colors.black,
+        leading: InkWell(
+          onTap: () => Navigator.pop(context),
+          child: Container(
+            margin: EdgeInsets.only(left: 8),
+            child: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
           ),
         ),
         leadingWidth: 25,
@@ -121,11 +122,7 @@ class _ChatScreenState extends State<ChatScreen> {
           // SvgPicture.asset(
           //   "assets/back.svg",
           // ),
-          Stack(
-            children: [
-              SvgPicture.asset("assets/back.svg"),
-            ],
-          ),
+
           ChatMessageList(),
           Align(
             alignment: Alignment.bottomRight,

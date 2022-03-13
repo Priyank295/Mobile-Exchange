@@ -112,10 +112,10 @@ class _NavBarState extends State<NavBar> {
                   GButton(
                     icon: LineAwesomeIcons.sms,
                     iconColor: Colors.black,
-                    iconActiveColor: Colors.grey,
+                    iconActiveColor: Colors.green,
                     text: 'Chat',
-                    textColor: Colors.grey,
-                    backgroundColor: Colors.grey.withOpacity(0.2),
+                    textColor: Colors.green,
+                    backgroundColor: Colors.green.withOpacity(0.2),
                     //iconSize: 24,
                     //padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                   ),

@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:mbx/myProductsSceen.dart';
 import 'package:mbx/profile_update.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
@@ -327,12 +328,20 @@ class _ProfileState extends State<Profile> {
                           SizedBox(
                             width: 10,
                           ),
-                          Text("My Products for sell",
-                              style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xfff000000))),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (ctx) => MyProducts()));
+                            },
+                            child: Text("My Products for sell",
+                                style: TextStyle(
+                                    fontFamily: "Lato",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xfff000000))),
+                          ),
                         ],
                       ),
                     ),

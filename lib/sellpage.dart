@@ -51,7 +51,7 @@ class _SellPageState extends State<SellPage> {
 
     if (permissionStatus.isGranted) {
       final List<XFile>? selectedImages = await _picker.pickMultiImage();
-      if (selectedImages!.isNotEmpty) {
+      if (selectedImages != null) {
         imagefileList!.addAll(selectedImages);
         print("Image List Length:" + imagefileList!.length.toString());
         setState(() {
@@ -70,6 +70,8 @@ class _SellPageState extends State<SellPage> {
           //   imgUrl =
           // });
         }
+      } else {
+        print("no selection");
       }
 
       //   if (image != null) {

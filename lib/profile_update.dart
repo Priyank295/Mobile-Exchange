@@ -1,7 +1,14 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ProfileUpdate extends StatefulWidget {
   const ProfileUpdate({Key? key}) : super(key: key);
@@ -11,6 +18,7 @@ class ProfileUpdate extends StatefulWidget {
 }
 
 FirebaseAuth _auth = FirebaseAuth.instance;
+//User? user = _auth.currentUser;
 FirebaseFirestore _fire = FirebaseFirestore.instance;
 String fname = "";
 String lname = "";
@@ -24,8 +32,124 @@ GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 User? user = _auth.currentUser;
 
 class _ProfileUpdateState extends State<ProfileUpdate> {
+  bool _isLoading = false;
+  String picUrl = "";
+  File? _photo;
+  List<String> imgUrl = [];
+  List<XFile>? imagefileList = [];
+
+  FirebaseFirestore _fire = FirebaseFirestore.instance;
+  FirebaseAuth _auth = FirebaseAuth.instance;
+  Reference _storage = FirebaseStorage.instance.ref();
+
+  // Future uploadFile() async {
+  //   if (_photo == null) return;
+  //   final fileName = basename(_photo!.path);
+  //   final destination = 'files/$fileName';
+
+  //   try {
+  //     final ref = _storage.child('Users/${_photo!.path}');
+  //     await ref.putFile(_photo!);
+
+  //     UploadTask uploadTask = _storage.putFile(File(_photo!.path));
+  //     final TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() async {
+  //       picUrl = await uploadTask.then((_) => ref.getDownloadURL());
+
+  //       log(picUrl);
+  //     });
+  //   } catch (e) {
+  //     print('error occured');
+  //   }
+  // }
+
+  Future uploadProfilePic() async {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(user!.uid)
+        .update({
+      "Profile Pic": picUrl,
+    });
+  }
+
+  // Future getImage() async {
+  //   final _picker = ImagePicker();
+
+  //   await Permission.photos.request();
+
+  //   var permissionStatus = await Permission.photos.status;
+
+  //   if (permissionStatus.isGranted) {
+  //     //final Future<XFile?> selectedImages =  _picker.pickImage();
+
+  //     XFile? selectImage = await _picker.pickImage(source: ImageSource.gallery);
+  //     if (selectImage != null) {
+  //       _photo = File(selectImage.path);
+  //       //imagefileList!.add(selectImage);
+  //       print("Image List Length:" + imagefileList!.length.toString());
+  //       setState(() {
+  //         _isLoading = true;
+  //       });
+  //       if (imagefileList != null) {
+  //         setState(() {
+  //           _isLoading = true;
+  //         });
+  //         uploadFile();
+
+  //         setState(() {
+  //           _isLoading = false;
+  //         });
+  //         // setState(() {
+  //         //   imgUrl =
+  //         // });
+  //       }
+  //     } else {
+  //       print("no selection");
+  //     }
+  //   }
+  // }
+
+  Future selectFile() async {
+    final result = await ImagePicker().pickImage(source: ImageSource.gallery);
+
+    if (result == null) return;
+    final path = result.path;
+    uploadFile();
+
+    setState(() {
+      _photo = File(path);
+    });
+  }
+
+  Future uploadFile() async {
+    if (_photo == null) return;
+
+    final filename = basename(_photo!.path);
+    final destination = 'photo/$_photo';
+
+    var task = uploadTask(destination, _photo!);
+
+    if (task == null) return;
+
+    final snapshot = await task.whenComplete(() {});
+    final urlDownload = await snapshot.ref.getDownloadURL();
+
+    print('Download-Link: $urlDownload');
+  }
+
+  static UploadTask? uploadTask(String destination, File file) {
+    try {
+      final ref = FirebaseStorage.instance.ref(destination);
+
+      return ref.putFile(file);
+    } on FirebaseException catch (e) {
+      return null;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final filename =
+        _photo != null ? basename(_photo!.path) : 'No File Selected';
     final User? user = _auth.currentUser;
     var userid = user!.uid;
     return StreamBuilder(
@@ -118,22 +242,27 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           //     ),
                           //   ],
                           // ),
-                          Container(
-                            margin: EdgeInsets.only(top: 40),
-                            child: CircleAvatar(
-                              radius: 70,
-                              // backgroundImage: snapshot.data!["Profile Pic"] == "" ? Image.asset("assets/male.png") : Image.asset("assets/female.png");
+                          InkWell(
+                            onTap: selectFile,
+                            child: Container(
+                              margin: EdgeInsets.only(top: 40),
+                              child: CircleAvatar(
+                                radius: 70,
+                                backgroundImage:
+                                    _photo != null ? FileImage(_photo!) : null,
+                                //NetworkImage(snapshot.data!["Profile Pic"]),
 
-                              child: Stack(children: [
-                                Align(
-                                  alignment: Alignment.bottomRight,
-                                  child: CircleAvatar(
-                                      radius: 18,
-                                      backgroundColor: Colors.white70,
-                                      child: SvgPicture.asset(
-                                          "assets/square.svg")),
-                                ),
-                              ]),
+                                child: Stack(children: [
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: CircleAvatar(
+                                        radius: 18,
+                                        backgroundColor: Colors.transparent,
+                                        child: SvgPicture.asset(
+                                            "assets/square.svg")),
+                                  ),
+                                ]),
+                              ),
                             ),
                           ),
                           SizedBox(
@@ -353,6 +482,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                             child: Center(
                               child: InkWell(
                                 onTap: () {
+                                  uploadProfilePic();
                                   // FirebaseFirestore.instance
                                   //     .collection("users")
                                   //     .doc(user.uid)
@@ -367,6 +497,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
 
                                   // });
 
+                                  print(picUrl);
                                   _scaffoldKey.currentState!.showSnackBar(
                                       new SnackBar(
                                           content: Text(

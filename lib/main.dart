@@ -7,7 +7,9 @@ import 'package:mbx/checkEmail.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/home.dart';
+import 'package:mbx/myProductsSceen.dart';
 import 'package:mbx/searchpage.dart';
+import 'package:mbx/settingsScreen.dart';
 import './sellpage.dart';
 import 'package:mbx/loadingScreen.dart';
 import 'package:mbx/main_widget.dart';
@@ -67,7 +69,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : Search(),
+      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : NavBar(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
