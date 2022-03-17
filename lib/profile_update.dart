@@ -133,6 +133,10 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
     final snapshot = await task.whenComplete(() {});
     final urlDownload = await snapshot.ref.getDownloadURL();
 
+    setState(() {
+      picUrl = urlDownload;
+    });
+
     print('Download-Link: $urlDownload');
   }
 
@@ -245,24 +249,29 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                           InkWell(
                             onTap: selectFile,
                             child: Container(
+                              height: 120,
+                              width: 120,
                               margin: EdgeInsets.only(top: 40),
-                              child: CircleAvatar(
-                                radius: 70,
-                                backgroundImage:
-                                    _photo != null ? FileImage(_photo!) : null,
-                                //NetworkImage(snapshot.data!["Profile Pic"]),
-
-                                child: Stack(children: [
-                                  Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: CircleAvatar(
-                                        radius: 18,
-                                        backgroundColor: Colors.transparent,
-                                        child: SvgPicture.asset(
-                                            "assets/square.svg")),
-                                  ),
-                                ]),
-                              ),
+                              child: Stack(children: [
+                                CircleAvatar(
+                                  radius: 120,
+                                  child: picUrl.isEmpty
+                                      ? (snapshot.data!["Gender"] == "Male"
+                                          ? SvgPicture.asset("assets/male.svg")
+                                          : SvgPicture.asset(
+                                              "assets/female.svg"))
+                                      : Image.network(
+                                          snapshot.data!["Profile Pic"]),
+                                ),
+                                Align(
+                                  alignment: Alignment.bottomRight,
+                                  child: CircleAvatar(
+                                      radius: 15,
+                                      backgroundColor: Colors.transparent,
+                                      child: SvgPicture.asset(
+                                          "assets/square.svg")),
+                                ),
+                              ]),
                             ),
                           ),
                           SizedBox(

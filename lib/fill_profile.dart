@@ -30,6 +30,7 @@ class _Fill_ProfileState extends State<Fill_Profile> {
   final TextEditingController _lname = TextEditingController();
   final TextEditingController _address = TextEditingController();
   final TextEditingController _zip = TextEditingController();
+  final TextEditingController _dis = TextEditingController();
 
   final FirebaseFirestore fireStore = FirebaseFirestore.instance;
 
@@ -251,64 +252,134 @@ class _Fill_ProfileState extends State<Fill_Profile> {
                     ),
                   ),
                   const SizedBox(height: 15),
-                  Container(
-                    margin: const EdgeInsets.only(
-                      left: 45,
-                    ),
-                    child: const Text(
-                      "Zip Code",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.black87,
-                        fontFamily: "Lato",
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Container(
-                    margin: EdgeInsets.only(left: 45),
-                    height: 80,
-                    width: 300,
-                    child: TextField(
-                      controller: _zip,
-                      // ignore: deprecated_member_use
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 45),
+                            child: const Text(
+                              "Zip Code",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                                fontFamily: "Lato",
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 10),
+                          Container(
+                            margin: EdgeInsets.only(left: 45, right: 20),
+                            height: 80,
+                            width: 140,
+                            child: TextField(
+                              controller: _zip,
+                              // ignore: deprecated_member_use
 
-                      maxLength: 6,
-                      keyboardType: TextInputType.number,
-                      decoration: InputDecoration(
-                        suffixIcon: _zip.text.isEmpty && _zip.text.length <= 6
-                            ? Padding(
-                                padding: EdgeInsets.all(12.0),
-                                child: SvgPicture.asset(
-                                    "assets/WarningCircle.svg"),
-                              )
-                            : SizedBox(),
-                        hintText: "Enter your Zipcode",
-                        hintStyle: const TextStyle(
-                          color: Color(0xFFFAEAEAE),
-                          fontFamily: "Lato",
-                          fontSize: 12,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: const BorderSide(
-                            color: Color(0xFFFD2D2D2),
+                              maxLength: 6,
+                              keyboardType: TextInputType.number,
+                              decoration: InputDecoration(
+                                suffixIcon:
+                                    _zip.text.isEmpty && _zip.text.length <= 6
+                                        ? Padding(
+                                            padding: EdgeInsets.all(12.0),
+                                            child: SvgPicture.asset(
+                                                "assets/WarningCircle.svg"),
+                                          )
+                                        : SizedBox(),
+                                hintText: "Zipcode",
+                                hintStyle: const TextStyle(
+                                  color: Color(0xFFFAEAEAE),
+                                  fontFamily: "Lato",
+                                  fontSize: 12,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFFD2D2D2),
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFFF6342E8),
+                                  ),
+                                ),
+                                contentPadding:
+                                    EdgeInsets.only(top: 5, left: 15),
+                              ),
+                              style: const TextStyle(
+                                fontFamily: "Lato",
+                                fontSize: 12,
+                              ),
+                            ),
                           ),
-                        ),
-                        focusedBorder: const OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Color(0xFFF6342E8),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            child: const Text(
+                              "District",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black87,
+                                fontFamily: "Lato",
+                                fontStyle: FontStyle.normal,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
-                        ),
-                        contentPadding: EdgeInsets.only(top: 5, left: 15),
-                      ),
-                      style: const TextStyle(
-                        fontFamily: "Lato",
-                        fontSize: 12,
-                      ),
-                    ),
+                          const SizedBox(height: 10),
+                          Container(
+                            margin: EdgeInsets.only(right: 45),
+                            height: 80,
+                            width: 140,
+                            child: TextField(
+                              controller: _dis,
+                              // ignore: deprecated_member_use
+
+                              decoration: InputDecoration(
+                                suffixIcon: _dis.text.isEmpty
+                                    ? Padding(
+                                        padding: EdgeInsets.all(12.0),
+                                        child: SvgPicture.asset(
+                                            "assets/WarningCircle.svg"),
+                                      )
+                                    : SizedBox(),
+                                hintText: "District",
+                                hintStyle: const TextStyle(
+                                  color: Color(0xFFFAEAEAE),
+                                  fontFamily: "Lato",
+                                  fontSize: 12,
+                                ),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                  borderSide: const BorderSide(
+                                    color: Color(0xFFFD2D2D2),
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: Color(0xFFF6342E8),
+                                  ),
+                                ),
+                                contentPadding:
+                                    EdgeInsets.only(top: 5, left: 15),
+                              ),
+                              style: const TextStyle(
+                                fontFamily: "Lato",
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
                   ),
                   //RADIO BUTTONS
                   // Row(
@@ -490,6 +561,7 @@ class _Fill_ProfileState extends State<Fill_Profile> {
         "Zip": _zip.text,
         "Gender": gender,
         "Profile Pic": "",
+        "District": _dis.text
       },
     ).then((value) {
       Navigator.pushAndRemoveUntil(context,

@@ -313,7 +313,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                                 height: 22,
                                               ),
                                               Text(
-                                                "Bhavnagar",
+                                                snapshot.data!["District"],
                                                 style: TextStyle(
                                                     fontFamily: "Lato",
                                                     fontSize: 14,

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,8 +17,11 @@ class MenuWidget extends StatefulWidget {
 
 class _MenuWidgetState extends State<MenuWidget> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
+    User? user = _auth.currentUser;
+    var uid = user!.uid;
     return Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
@@ -32,77 +36,96 @@ class _MenuWidgetState extends State<MenuWidget> {
         ),
       ),
       child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: Column(
-          children: <Widget>[
-            SizedBox(
-              height: 100,
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: EdgeInsets.only(left: 10),
-                  height: 64,
-                  width: 64,
-                  child: CircleAvatar(
-                    backgroundImage: AssetImage('assets/dp.jpg'),
-                    radius: 60,
-                  ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Column(
-                  children: [
+          backgroundColor: Colors.transparent,
+          body: StreamBuilder(
+            stream: FirebaseFirestore.instance
+                .collection("users")
+                .doc(uid)
+                .snapshots(),
+            builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+              if (snapshot.hasData)
+                return Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 100,
+                    ),
                     Row(
                       children: [
-                        Text('Priyank Vaghela',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Lato')),
                         Container(
-                          margin: EdgeInsets.only(left: 5),
-                          child: SvgPicture.asset(
-                            'assets/edit.svg',
-                            color: Colors.white,
+                          margin: EdgeInsets.only(left: 10),
+                          height: 64,
+                          width: 64,
+                          child: CircleAvatar(
+                            child: snapshot.data!["Profile Pic"] == ""
+                                ? (snapshot.data!["Gender"] == "Male"
+                                    ? SvgPicture.asset("assets/male.svg")
+                                    : SvgPicture.asset("assets/female.svg"))
+                                : Image.network(snapshot.data!["Profile Pic"]),
+                            radius: 60,
                           ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                    "${snapshot.data!["Fname"]}" +
+                                        " " +
+                                        snapshot.data!["Lname"],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Lato')),
+                                Container(
+                                  margin: EdgeInsets.only(left: 5),
+                                  child: SvgPicture.asset(
+                                    'assets/edit.svg',
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Text(
+                              snapshot.data!["Email"] == ""
+                                  ? "+91 " + snapshot.data!["Phone"]
+                                  : snapshot.data!["Email"],
+                              style: TextStyle(
+                                fontSize: 14,
+                                fontFamily: 'Lato',
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
-                    Text(
-                      'priyankvaghela@gmail.com',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontFamily: 'Lato',
-                        color: Colors.white,
-                      ),
+                    SizedBox(
+                      height: 30,
                     ),
+                    sliderItem('Profile', LineIcons.user),
+                    sliderItem('Cart', LineIcons.shoppingCart),
+                    sliderItem('Sell', LineIcons.plusCircle),
+                    sliderItem('Notification', LineIcons.bell),
+                    sliderItem('Settings', Icons.settings),
+                    sliderItem('About', LineIcons.exclamationCircle),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                            onTap: () => signOut(),
+                            child: sliderItem(
+                                'LOG OUT', LineIcons.alternateSignOut)),
+                      ],
+                    )
                   ],
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            sliderItem('Profile', LineIcons.user),
-            sliderItem('Cart', LineIcons.shoppingCart),
-            sliderItem('Sell', LineIcons.plusCircle),
-            sliderItem('Notification', LineIcons.bell),
-            sliderItem('Settings', Icons.settings),
-            sliderItem('About', LineIcons.exclamationCircle),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                InkWell(
-                    onTap: () => signOut(),
-                    child: sliderItem('LOG OUT', LineIcons.alternateSignOut)),
-              ],
-            )
-          ],
-        ),
-      ),
+                );
+              return Container();
+            },
+          )),
     );
   }
 
