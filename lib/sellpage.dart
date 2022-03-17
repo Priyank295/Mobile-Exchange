@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
@@ -11,13 +9,13 @@ import 'package:http/http.dart' as http;
 import "./user_services.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 import './product_added.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'getApiData.dart';
 import 'loadingScreen.dart';
 
 class SellPage extends StatefulWidget {
@@ -116,8 +114,12 @@ class _SellPageState extends State<SellPage> {
     // }
   }
 
+  
+
+  
+
   Future<Map<String, dynamic>> fetchData() async {
-    final response = await http.get('https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',
+    final response = await http.get(Uri.parse('https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',),
         headers: {
           "X-Parse-Application-Id":
               "S7h3FIGQjiH17nHGJQqo4SIaJdnqmpMc7E1O3Kfk", // This is your app's application id
@@ -590,7 +592,9 @@ class _SellPageState extends State<SellPage> {
                                           _isPrice == false) {
                                       } else {
                                         // uploadProduct();
-                                        newUploadProduct();
+                                        // newUploadProduct();
+                                        Navigator.push(context, MaterialPageRoute(builder: (ctx)=>GetData()) );
+                                        
                                       }
                                     },
                                     child: Container(
