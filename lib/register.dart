@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/loadingScreen.dart';
 import 'package:mbx/loginpage.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './otppage.dart';
 import 'package:flutter/services.dart';
@@ -318,15 +319,19 @@ class _RegisterPageState extends State<RegisterPage> {
                           auth
                               .createUserWithEmailAndPassword(
                                   email: email.text, password: _pass.text)
-                              .then((value) {
+                              .then((value) async {
                             CollectionReference db =
                                 FirebaseFirestore.instance.collection("users");
+                            var status =
+                                await OneSignal.shared.getDeviceState();
+                            String? tokenId = status!.userId;
 
                             db.doc(value.user!.uid).set({
                               "Email": email.text,
                               "Password": _pass.text,
                               "Uid": value.user!.uid,
                               "Phone": "",
+                              "tokenId": tokenId,
                               "Profile Pic": "",
                             }).then((value) {
                               email.clear();

@@ -12,6 +12,13 @@ class DatabaseMethods {
     });
   }
 
+  getFriendTokenId(String userName) async {
+    return await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userName)
+        .get();
+  }
+
   addConverstationMessages(String chatRoomId, messageMap) {
     FirebaseFirestore.instance
         .collection("ChatRoom")

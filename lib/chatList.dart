@@ -50,14 +50,52 @@ class _ChatListState extends State<ChatList> {
         });
   }
 
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    // DatabaseMethods().getChatRoom(user!.uid).then((value) {
-    //   chatRoomStream = value;
-    // });
-  }
+  // @override
+  // initState() {
+  //   WidgetsBinding.instance!.addObserver(this);
+  //   // DatabaseMethods().getUserInfogetChatsFromFirebase().then((value) {
+  //   //   setState(() {
+  //   //     chatRooms=value;
+  //   //   });
+  //   // });
+  //   getUserInfogetChats();
+  //   DatabaseMethods().updateUserStatusToOnline();
+  //   new Timer.periodic(Duration(seconds: 10), (Timer t) {
+  //     if (mounted) {
+  //       setState(() {});
+  //     }
+  //   });
+  //   final fbm = FirebaseMessaging();
+  //   fbm.requestNotificationPermissions();
+  //   fbm.configure(
+  //     onMessage: (message) {. n
+  //       print(message);
+  //     },
+  //     onLaunch: (message) {
+  //       Navigator.push(
+  //           context,
+  //           MaterialPageRoute(
+  //               builder: (context) => Chat(
+  //                     chatRoomId: message['chatRoomId'],
+  //                     userId: message['userName'],
+  //                   )));
+  //       print(message);
+  //     },
+  //     onResume: (message) {
+  //       WidgetsBinding.instance.addPostFrameCallback((_) {
+  //         Navigator.push(
+  //             context,
+  //             MaterialPageRoute(
+  //                 builder: (context) => Chat(
+  //                       chatRoomId: message["data"]["chatRoomId"],
+  //                       userId: message["data"]["userId"],
+  //                     )));
+  //       });
+  //       print(message);
+  //     },
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

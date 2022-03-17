@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:line_icons/line_icon.dart';
@@ -5,7 +7,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
-
+import 'package:http/http.dart' as http;
 import "./user_services.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -112,6 +114,21 @@ class _SellPageState extends State<SellPage> {
     //     });
     //   });
     // }
+  }
+
+  Future<Map<String, dynamic>> fetchData() async {
+    final response = await http.get('https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',
+        headers: {
+          "X-Parse-Application-Id":
+              "S7h3FIGQjiH17nHGJQqo4SIaJdnqmpMc7E1O3Kfk", // This is your app's application id
+          "X-Parse-REST-API-Key":
+              "D7mqcAWkRnj3iVtLPbVv39SW0PV2XW1v6pRrBdnO" // This is your app's REST API key
+        });
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to fetch data');
+    }
   }
 
   @override

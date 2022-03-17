@@ -134,7 +134,6 @@ class _MyProductsState extends State<MyProducts> {
                 ]);
               },
             );
-            ;
           },
         ));
   }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:otp_text_field/otp_text_field.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:otp_text_field/style.dart';
@@ -299,6 +300,8 @@ class _OtpPage2State extends State<OtpPage2> {
                   MaterialPageRoute(builder: (context) => NavBar()),
                   (route) => false);
             } else {
+              var status = await OneSignal.shared.getDeviceState();
+              String? tokenId = status!.userId;
               FirebaseFirestore.instance
                   .collection("users")
                   .doc(value.user!.uid)
@@ -307,6 +310,7 @@ class _OtpPage2State extends State<OtpPage2> {
                 "Email": widget.Email,
                 "Password": widget.Pass,
                 "Phone": widget.Phone,
+                "tokenId": tokenId,
               });
               Navigator.pushAndRemoveUntil(
                   context,

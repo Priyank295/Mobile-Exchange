@@ -1,33 +1,17 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:http/http.dart';
-import 'package:mbx/checkEmail.dart';
 import 'package:mbx/fill_profile.dart';
 import 'package:mbx/firstpage.dart';
-import 'package:mbx/home.dart';
-import 'package:mbx/myProductsSceen.dart';
-import 'package:mbx/searchpage.dart';
-import 'package:mbx/settingsScreen.dart';
-import './sellpage.dart';
-import 'package:mbx/loadingScreen.dart';
-import 'package:mbx/main_widget.dart';
 import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
-import 'package:mbx/product_detail_page.dart';
-import 'package:mbx/profile.dart';
-import 'package:mbx/profile_update.dart';
-import 'package:mbx/resetPasswordScreen.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import './otppage.dart';
 import 'package:mbx/register.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import './otppage.dart';
 import './register.dart';
-import './user.dart';
-import 'chatScreen.dart';
+import 'constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,13 +34,19 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
+
     user = FirebaseAuth.instance.authStateChanges().listen((user) {
       if (user == null) {
         print("User is currently Sign out");
       } else {
         print("User is sign in...");
+        configOneSignal();
       }
     });
+  }
+
+  void configOneSignal() {
+    OneSignal.shared.setAppId("3db73d0a-fcff-4cf6-a368-3f83305c8109");
   }
 
   @override
@@ -69,7 +59,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : NavBar(),
+      home:
+          FirebaseAuth.instance.currentUser == null ? FirstPage() : FirstPage(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
