@@ -50,7 +50,7 @@ dependencies:
   get: ^4.6.1
   google_nav_bar: ^2.2.0
   line_icons: ^2.0.1
-  flutter_slider_drawer: ^2.0.0
+  flutter_slider_drawer: ^2.1.1
   lottie: ^1.2.1
   shared_preferences: ^2.0.11
   firebase_database: ^9.0.4
@@ -68,6 +68,7 @@ dependencies:
   # firebase_messaging: 
   rect_getter: ^1.1.0
   onesignal_flutter: ^3.3.0
+  selection_menu: ^1.0.0
   
  
 

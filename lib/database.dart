@@ -59,4 +59,10 @@ class DatabaseMethods {
         .where("Product Name", isEqualTo: searchField)
         .get();
   }
+
+  getProductBrand() async {
+    return await FirebaseFirestore.instance
+        .collection("Categories")
+        .snapshots();
+  }
 }
