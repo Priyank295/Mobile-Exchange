@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:mbx/chatList.dart';
 import 'package:mbx/loginpage.dart';
+import 'package:mbx/profile.dart';
+import 'package:mbx/sellpage.dart';
+import 'package:mbx/settingsScreen.dart';
 import './firstpage.dart';
 
 class MenuWidget extends StatefulWidget {
@@ -106,12 +110,40 @@ class _MenuWidgetState extends State<MenuWidget> {
                     SizedBox(
                       height: 30,
                     ),
-                    sliderItem('Profile', LineIcons.user),
-                    sliderItem('Cart', LineIcons.shoppingCart),
-                    sliderItem('Sell', LineIcons.plusCircle),
-                    sliderItem('Notification', LineIcons.bell),
-                    sliderItem('Settings', Icons.settings),
-                    sliderItem('About', LineIcons.exclamationCircle),
+                    InkWell(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (ctx) => Profile())),
+                      child: sliderItem(
+                        'Profile',
+                        LineIcons.user,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (ctx) => ChatList())),
+                      child: sliderItem(
+                        'Chat',
+                        Icons.message,
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (ctx) => SellPage())),
+                      child: sliderItem(
+                        'Sell',
+                        LineIcons.plusCircle,
+                      ),
+                    ),
+                    //sliderItem('Notification', LineIcons.bell),
+                    InkWell(
+                      onTap: () => Navigator.push(context,
+                          MaterialPageRoute(builder: (ctx) => SettingScreen())),
+                      child: sliderItem(
+                        'Settings',
+                        Icons.settings,
+                      ),
+                    ),
+                    //sliderItem('About', LineIcons.exclamationCircle),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

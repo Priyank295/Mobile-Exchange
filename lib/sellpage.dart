@@ -114,12 +114,11 @@ class _SellPageState extends State<SellPage> {
     // }
   }
 
-  
-
-  
-
   Future<Map<String, dynamic>> fetchData() async {
-    final response = await http.get(Uri.parse('https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',),
+    final response = await http.get(
+        Uri.parse(
+          'https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',
+        ),
         headers: {
           "X-Parse-Application-Id":
               "S7h3FIGQjiH17nHGJQqo4SIaJdnqmpMc7E1O3Kfk", // This is your app's application id
@@ -591,10 +590,10 @@ class _SellPageState extends State<SellPage> {
                                           _isModel == false ||
                                           _isPrice == false) {
                                       } else {
-                                        // uploadProduct();
-                                        // newUploadProduct();
-                                        Navigator.push(context, MaterialPageRoute(builder: (ctx)=>GetData()) );
-                                        
+                                        //uploadProduct();
+                                        newUploadProduct();
+                                        //Navigator.push(context, MaterialPageRoute(builder: (ctx)=>GetData()) );
+
                                       }
                                     },
                                     child: Container(

@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mbx/chatScreen.dart';
 import 'package:mbx/database.dart';
+import 'package:mbx/loginpage.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart';
@@ -23,8 +24,8 @@ class ProductDetailPage extends StatefulWidget {
   QueryDocumentSnapshot proSnapshot;
 
   ProductDetailPage(
-    this.DocId,
     this.UserId,
+    this.DocId,
     this.proSnapshot,
   );
 
@@ -82,6 +83,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       DatabaseMethods().createChatroom(chatRoomId, chatRoomMap);
 
       Get.to(ChatScreen(chatRoomId, userName));
+      // () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (ctx) => ChatScreen(chatRoomId, userName)));
     } else {
       print("You cannot send message to yourself");
     }

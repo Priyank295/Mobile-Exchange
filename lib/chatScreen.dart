@@ -114,6 +114,8 @@ class _ChatScreenState extends State<ChatScreen> {
       setState(() {
         DatabaseMethods()
             .addConverstationMessages(widget.chatRoomId, messageMap);
+
+        messageController.clear();
       });
 
       // await DatabaseMethods()
@@ -125,7 +127,6 @@ class _ChatScreenState extends State<ChatScreen> {
       //   });
       // });
 
-      messageController.clear();
       print("Hello");
     }
   }
@@ -234,19 +235,19 @@ class _ChatScreenState extends State<ChatScreen> {
                       onTap: () {
                         print(widget.chatRoomId);
 
-                        // setState(() {
-                        //   sendMessage();
-                        //   _scrollDown();
-                        //   sendNotification(
-                        //       ["e3acd5e6-a4fc-11ec-958f-16349383fd8f"],
-                        //       messageController.text,
-                        //       "PRiyank Vaghela ");
+                        setState(() {
+                          sendMessage();
+                          _scrollDown();
+                          // sendNotification(
+                          //     ["e3acd5e6-a4fc-11ec-958f-16349383fd8f"],
+                          //     messageController.text,
+                          //     "PRiyank Vaghela ");
 
-                        //   OneSignal.shared.setExternalUserId(widget.userName,
-                        //       "e3acd5e6-a4fc-11ec-958f-16349383fd8f");
+                          // OneSignal.shared.setExternalUserId(widget.userName,
+                          //     "e3acd5e6-a4fc-11ec-958f-16349383fd8f");
 
-                        //       OneSignal.shared.
-                        // });
+                          //     OneSignal.shared.
+                        });
                       },
                       child: Container(
                         margin: EdgeInsets.only(left: 10),

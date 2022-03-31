@@ -69,6 +69,7 @@ dependencies:
   rect_getter: ^1.1.0
   onesignal_flutter: ^3.3.0
   selection_menu: ^1.0.0
+  awesome_notifications: ^0.6.21
   
  
 

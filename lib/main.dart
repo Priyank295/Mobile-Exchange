@@ -62,9 +62,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: FirebaseAuth.instance.currentUser == null
-          ? FirstPage()
-          : NewSellPage(),
+      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : NavBar(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
