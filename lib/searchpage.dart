@@ -182,6 +182,17 @@ class _SearchState extends State<Search> {
                   ],
                 ),
               ),
+              Row(
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        SvgPicture.asset("assets/filter.svg"),
+                      ],
+                    ),
+                  )
+                ],
+              ),
               searchProduct(searchFieldController.text)
             ],
           ),

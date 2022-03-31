@@ -65,4 +65,18 @@ class DatabaseMethods {
         .collection("Categories")
         .snapshots();
   }
+
+  // removeProduct(String productId) async {
+  //   return await FirebaseFirestore.instance
+  //       .collection("Products")
+  //       .where(productId, isEqualTo: )
+  //       .snapshots();
+  // }
+
+  removeProduct(String productId) async {
+    return await FirebaseFirestore.instance
+        .collection("Products")
+        .doc(productId)
+        .delete();
+  }
 }
