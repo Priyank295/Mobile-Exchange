@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:mbx/myProductsSceen.dart';
 import 'package:mbx/profile_update.dart';
+import 'package:mbx/settingsScreen.dart';
 
 FirebaseAuth _auth = FirebaseAuth.instance;
 late Map<String, dynamic> userData;
@@ -359,25 +360,33 @@ class _ProfileState extends State<Profile> {
                     SizedBox(
                       height: 30,
                     ),
-                    Container(
-                      margin: EdgeInsets.only(left: 70),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          SvgPicture.asset(
-                            "assets/settings.svg",
-                            height: 30,
-                          ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Text("Settings",
-                              style: TextStyle(
-                                  fontFamily: "Lato",
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xfff000000))),
-                        ],
+                    InkWell(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (ctx) => SettingScreen()));
+                      },
+                      child: Container(
+                        margin: EdgeInsets.only(left: 70),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SvgPicture.asset(
+                              "assets/settings.svg",
+                              height: 30,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text("Settings",
+                                style: TextStyle(
+                                    fontFamily: "Lato",
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Color(0xfff000000))),
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(

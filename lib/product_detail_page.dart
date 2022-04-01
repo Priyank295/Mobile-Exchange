@@ -113,7 +113,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 //   height: MediaQuery.of(context).size.height,
                 // ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 2.5,
+                  height: MediaQuery.of(context).size.height / 2.7,
                   width: double.infinity,
                   child: Stack(
                     children: [
@@ -171,7 +171,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     borderRadius: BorderRadius.circular(40),
                     color: Colors.white,
                   ),
-                  height: 470,
+                  height: 500,
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,7 +213,104 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "RAM : ",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.proSnapshot["RAM"] + " GB",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "ROM : ",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.proSnapshot["ROM"] + " GB",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Front Camera : ",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.proSnapshot["Front"] + " MP",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Back Camera : ",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  widget.proSnapshot["Back"] + " MP",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       Padding(
                         padding:
@@ -221,9 +318,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         child: Text(
                           "Description",
                           style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: "Lato",
-                          ),
+                              fontSize: 16,
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
