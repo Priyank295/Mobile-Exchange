@@ -101,7 +101,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
-            .doc(UserId)
+            .doc(widget.UserId)
             .snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
@@ -117,22 +117,22 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                   width: double.infinity,
                   child: Stack(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60, left: 25),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: InkWell(
-                            onTap: () => Navigator.pop(context),
-                            child: SvgPicture.asset(
-                              "assets/arrow.svg",
-                              height: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 60, left: 25),
+                      //   child: GestureDetector(
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //     child: InkWell(
+                      //       onTap: () => Navigator.pop(context),
+                      //       child: SvgPicture.asset(
+                      //         "assets/arrow.svg",
+                      //         height: 20,
+                      //         color: Colors.black,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       CarouselSlider(
                         items: imagesUrl
                             .map(
@@ -242,7 +242,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height / 4,
+                            height: MediaQuery.of(context).size.height / 3.6,
                             width: double.infinity,
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -268,7 +268,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 15, top: 10),
+                                            left: 15, top: 20),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -307,29 +307,28 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, left: 20),
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                "assets/location.svg",
-                                                height: 22,
-                                              ),
-                                              Text(
-                                                snapshot.data!["District"],
-                                                style: TextStyle(
-                                                    fontFamily: "Lato",
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
                                     ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 5, left: 75),
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/location.svg",
+                                            height: 22,
+                                          ),
+                                          Text(
+                                            snapshot.data!["District"],
+                                            style: TextStyle(
+                                                fontFamily: "Lato",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(
