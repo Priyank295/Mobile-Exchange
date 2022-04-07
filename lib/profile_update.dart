@@ -285,6 +285,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                                     .collection("users")
                                     .doc(user.uid)
                                     .update({"Fname": value});
+                                FirebaseFirestore.instance
+                                    .collection("Admin")
+                                    .doc('admin1')
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({"Fname": value});
                               },
                               initialValue: snapshot.data!["Fname"],
                               style: TextStyle(
@@ -319,6 +325,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                                     .collection("users")
                                     .doc(user.uid)
                                     .update({"Lname": value});
+                                FirebaseFirestore.instance
+                                    .collection("Admin")
+                                    .doc('admin1')
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({"Lname": value});
                               },
                               initialValue: snapshot.data!["Lname"],
                               style: TextStyle(
@@ -351,6 +363,13 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                               onChanged: (value) {
                                 FirebaseFirestore.instance
                                     .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Email": value});
+
+                                FirebaseFirestore.instance
+                                    .collection("Admin")
+                                    .doc('admin1')
+                                    .collection('users')
                                     .doc(user.uid)
                                     .update({"Email": value});
                               },
@@ -389,6 +408,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                                     .collection("users")
                                     .doc(user.uid)
                                     .update({"Phone": value});
+                                FirebaseFirestore.instance
+                                    .collection("Admin")
+                                    .doc('admin1')
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({"Phone": value});
                               },
                               initialValue: snapshot.data!["Phone"] == ""
                                   ? ""
@@ -425,6 +450,12 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                                     .collection("users")
                                     .doc(user.uid)
                                     .update({"Address": value});
+                                FirebaseFirestore.instance
+                                    .collection("Admin")
+                                    .doc('admin1')
+                                    .collection('users')
+                                    .doc(user.uid)
+                                    .update({"Address": value});
                               },
                               initialValue: snapshot.data!["Address"],
                               style: TextStyle(
@@ -457,6 +488,13 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                               onChanged: (value) {
                                 FirebaseFirestore.instance
                                     .collection("users")
+                                    .doc(user.uid)
+                                    .update({"Zip": value});
+
+                                FirebaseFirestore.instance
+                                    .collection("Admin")
+                                    .doc('admin1')
+                                    .collection('users')
                                     .doc(user.uid)
                                     .update({"Zip": value});
                               },

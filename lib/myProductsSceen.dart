@@ -213,6 +213,12 @@ class _MyProductsState extends State<MyProducts> {
                           InkWell(
                             onTap: () {
                               DatabaseMethods().removeProduct(productId);
+                              // FirebaseFirestore.instance
+                              //     .collection("Admin")
+                              //     .doc("admin1")
+                              //     .collection("Products")
+                              //     .doc(snapshot.data!.docs[index].id)
+                              //     .delete();
                             },
                             child: LineIcon(
                               Icons.delete,

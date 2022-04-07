@@ -6,6 +6,7 @@ import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:http/http.dart' as http;
+import 'package:mbx/main_widget.dart';
 import "./user_services.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
@@ -41,6 +42,7 @@ class _SellPageState extends State<SellPage> {
   bool _isLoading = false;
   List<String> imgUrl = [];
   List<XFile>? imagefileList = [];
+  String DocId = "";
 
   FirebaseFirestore _fire = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -946,7 +948,7 @@ class _SellPageState extends State<SellPage> {
 
     var userId = currentuser!.uid;
 
-    FirebaseFirestore.instance.collection("Products").add({
+    await FirebaseFirestore.instance.collection("Products").add({
       "Product Name": _pName.text,
       "Product Price": _price.text,
       "Product Model": _model.text,
@@ -957,6 +959,35 @@ class _SellPageState extends State<SellPage> {
       "RAM": _ram.text,
       "Front": _front.text,
       "Back": _back.text,
+    }).then((DocumentReference docRef) {
+      setState(() {
+        DocId = docRef.id;
+      });
+      docRef.update(
+        {'documentID': docRef.id},
+      );
+    });
+
+    setState(() {
+      print("DOC ID:" + DocId);
+    });
+    await FirebaseFirestore.instance
+        .collection('Admin')
+        .doc('admin1')
+        .collection("Products")
+        .doc(DocId)
+        .set({
+      "Product Name": _pName.text,
+      "Product Price": _price.text,
+      "Product Model": _model.text,
+      "Product Description": _description.text,
+      "Product Photo": imgUrl,
+      "User Id": userId,
+      "ROM": _rom.text,
+      "RAM": _ram.text,
+      "Front": _front.text,
+      "Back": _back.text,
+      "documentId": DocId
     }).then((value) {
       print("New Product is Successfully added");
 

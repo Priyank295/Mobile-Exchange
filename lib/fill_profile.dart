@@ -563,10 +563,22 @@ class _Fill_ProfileState extends State<Fill_Profile> {
         "Profile Pic": "",
         "District": _dis.text
       },
-    ).then((value) {
-      Navigator.pushAndRemoveUntil(context,
-          MaterialPageRoute(builder: (context) => NavBar()), (route) => false);
-    });
+    );
+    await FirebaseFirestore.instance
+        .collection('Admin')
+        .doc('admin1')
+        .collection("users")
+        .doc(user!.uid)
+        .update({
+      "Fname": _fname.text,
+      "Lname": _lname.text,
+      "Address": _address.text,
+      "Zip": _zip.text,
+      "Gender": gender,
+      "Profile Pic": "",
+      "District": _dis.text
+    }).then((value) => Navigator.pushAndRemoveUntil(context,
+            MaterialPageRoute(builder: (ctx) => NavBar()), (route) => false));
   }
 
   @override

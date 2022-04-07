@@ -6,6 +6,7 @@ import 'package:mbx/firstpage.dart';
 import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
 import 'package:mbx/sellpage.dart';
+import 'package:mbx/settingsScreen.dart';
 import 'package:mbx/unwantedCode.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
