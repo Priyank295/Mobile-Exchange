@@ -167,21 +167,67 @@ class _SearchState extends State<Search> {
                       ),
                     ),
                     Container(
-                        width: 250,
-                        child: TextField(
-                          controller: searchFieldController,
-                          onSubmitted: (value) {
-                            initiateSearch();
-                          },
-                          decoration: InputDecoration(
-                              hintText: "Search Products",
-                              hintStyle:
-                                  TextStyle(fontFamily: "Lato", fontSize: 16),
-                              border: InputBorder.none),
-                        ))
+                      width: 250,
+                      child: TextField(
+                        controller: searchFieldController,
+                        onSubmitted: (value) {
+                          initiateSearch();
+                        },
+                        decoration: InputDecoration(
+                            hintText: "Search Products",
+                            hintStyle:
+                                TextStyle(fontFamily: "Lato", fontSize: 16),
+                            border: InputBorder.none),
+                      ),
+                    ),
+                    // PopupMenuButton(
+                    //     child: SvgPicture.asset("assets/filter.svg"),
+                    //     itemBuilder: (_) {
+                    //       return [
+                    //         PopupMenuItem(
+                    //           child: PopupMenuButton(
+                    //             child: Text("Price"),
+                    //             itemBuilder: (_) {
+                    //               return [
+                    //                 PopupMenuItem(
+                    //                   child: Text("5000-10000"),
+                    //                   value: 5000,
+                    //                 ),
+                    //                 PopupMenuItem(
+                    //                   child: Text("11000-20000"),
+                    //                   value: 11000,
+                    //                 ),
+                    //                 PopupMenuItem(
+                    //                   child: Text("21000-30000"),
+                    //                   value: 21000,
+                    //                 ),
+                    //               ];
+                    //             },
+                    //           ),
+                    //         ),
+                    //       ];
+                    //     }),
+                    // InkWell(
+                    //   onTap: () {
+
+                    //   },
+                    //child: SvgPicture.asset("assets/filter.svg"),
                   ],
                 ),
               ),
+
+              // Row(
+              //   children: [
+              //     Container(
+              //       margin: EdgeInsets.symmetric(horizontal: 25),
+              //       child: Row(
+              //         children: [
+              //           SvgPicture.asset("assets/filter.svg"),
+              //         ],
+              //       ),
+              //     )
+              //   ],
+              // ),
               searchProduct(searchFieldController.text)
             ],
           ),

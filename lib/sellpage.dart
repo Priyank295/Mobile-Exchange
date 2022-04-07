@@ -2,22 +2,21 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:line_icons/line_icon.dart';
-import 'package:line_icons/line_icons.dart';
 import 'package:lottie/lottie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import "package:firebase_auth/firebase_auth.dart";
 import 'package:http/http.dart' as http;
+import 'package:mbx/main_widget.dart';
 import "./user_services.dart";
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
 import 'package:get/get.dart';
 import './product_added.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import 'getApiData.dart';
 import 'loadingScreen.dart';
 
 class SellPage extends StatefulWidget {
@@ -30,6 +29,10 @@ class _SellPageState extends State<SellPage> {
   TextEditingController _price = TextEditingController();
   TextEditingController _model = TextEditingController();
   TextEditingController _description = TextEditingController();
+  TextEditingController _ram = TextEditingController();
+  TextEditingController _rom = TextEditingController();
+  TextEditingController _back = TextEditingController();
+  TextEditingController _front = TextEditingController();
   UserServices userServices = UserServices();
 
   bool _isName = true;
@@ -39,6 +42,7 @@ class _SellPageState extends State<SellPage> {
   bool _isLoading = false;
   List<String> imgUrl = [];
   List<XFile>? imagefileList = [];
+  String DocId = "";
 
   FirebaseFirestore _fire = FirebaseFirestore.instance;
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -117,7 +121,10 @@ class _SellPageState extends State<SellPage> {
   }
 
   Future<Map<String, dynamic>> fetchData() async {
-    final response = await http.get('https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',
+    final response = await http.get(
+        Uri.parse(
+          'https://parseapi.back4app.com/classes/Cellphonedataset_Dataset_Cell_Phones_Model_Brand?limit=10&keys=Brand,Model,Internal_memory,RAM',
+        ),
         headers: {
           "X-Parse-Application-Id":
               "S7h3FIGQjiH17nHGJQqo4SIaJdnqmpMc7E1O3Kfk", // This is your app's application id
@@ -483,6 +490,277 @@ class _SellPageState extends State<SellPage> {
                                   ),
                                 ),
                               ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 39),
+                                        child: Text(
+                                          "RAM",
+                                          style: TextStyle(
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 30),
+                                        height: 50,
+                                        width: 131,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          controller: _ram,
+                                          decoration: InputDecoration(
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                              minHeight: 24,
+                                              minWidth: 24,
+                                            ),
+                                            hintText: "RAM",
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xFFFAEAEAE),
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                color: Color(0xFFFD2D2D2),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFF6342E8),
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                EdgeInsets.only(left: 10),
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: "Lato",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 39, right: 39),
+                                        child: Text(
+                                          "ROM",
+                                          style: TextStyle(
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 30, right: 39),
+                                        height: 50,
+                                        width: 131,
+                                        child: TextFormField(
+                                          controller: _rom,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                              minHeight: 14,
+                                              minWidth: 14,
+                                            ),
+                                            hintText: "ROM",
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xFFFAEAEAE),
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                color: Color(0xFFFD2D2D2),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFF6342E8),
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                EdgeInsets.only(left: 10),
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: "Lato",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                              // SizedBox(
+                              //   height: 20,
+                              // ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 39),
+                                        child: Text(
+                                          "BACK CAMERA",
+                                          style: TextStyle(
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(left: 30),
+                                        height: 50,
+                                        width: 131,
+                                        child: TextFormField(
+                                          keyboardType: TextInputType.number,
+                                          controller: _back,
+                                          decoration: InputDecoration(
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                              minHeight: 24,
+                                              minWidth: 24,
+                                            ),
+                                            hintText: "BACK CAMERA",
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xFFFAEAEAE),
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                color: Color(0xFFFD2D2D2),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFF6342E8),
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                EdgeInsets.only(left: 10),
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: "Lato",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 39, right: 39),
+                                        child: Text(
+                                          "FRONT CAMERA",
+                                          style: TextStyle(
+                                              fontFamily: "Lato",
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 14),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.only(
+                                            left: 30, right: 39),
+                                        height: 50,
+                                        width: 131,
+                                        child: TextFormField(
+                                          controller: _front,
+                                          keyboardType: TextInputType.number,
+                                          decoration: InputDecoration(
+                                            prefixIconConstraints:
+                                                const BoxConstraints(
+                                              minHeight: 14,
+                                              minWidth: 14,
+                                            ),
+                                            hintText: "FRONT CAMERA",
+                                            hintStyle: const TextStyle(
+                                              color: Color(0xFFFAEAEAE),
+                                              fontFamily: "Lato",
+                                              fontSize: 12,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(8),
+                                              borderSide: const BorderSide(
+                                                color: Color(0xFFFD2D2D2),
+                                              ),
+                                            ),
+                                            focusedBorder:
+                                                const OutlineInputBorder(
+                                              borderSide: BorderSide(
+                                                color: Color(0xFFF6342E8),
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                EdgeInsets.only(left: 10),
+                                          ),
+                                          style: const TextStyle(
+                                            fontFamily: "Lato",
+                                            fontSize: 14,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
                               SizedBox(
                                 height: 20,
                               ),
@@ -589,8 +867,10 @@ class _SellPageState extends State<SellPage> {
                                           _isModel == false ||
                                           _isPrice == false) {
                                       } else {
-                                        // uploadProduct();
+                                        //uploadProduct();
                                         newUploadProduct();
+                                        //Navigator.push(context, MaterialPageRoute(builder: (ctx)=>GetData()) );
+
                                       }
                                     },
                                     child: Container(
@@ -668,13 +948,46 @@ class _SellPageState extends State<SellPage> {
 
     var userId = currentuser!.uid;
 
-    FirebaseFirestore.instance.collection("Products").add({
+    await FirebaseFirestore.instance.collection("Products").add({
       "Product Name": _pName.text,
       "Product Price": _price.text,
       "Product Model": _model.text,
       "Product Description": _description.text,
       "Product Photo": imgUrl,
       "User Id": userId,
+      "ROM": _rom.text,
+      "RAM": _ram.text,
+      "Front": _front.text,
+      "Back": _back.text,
+    }).then((DocumentReference docRef) {
+      setState(() {
+        DocId = docRef.id;
+      });
+      docRef.update(
+        {'documentID': docRef.id},
+      );
+    });
+
+    setState(() {
+      print("DOC ID:" + DocId);
+    });
+    await FirebaseFirestore.instance
+        .collection('Admin')
+        .doc('admin1')
+        .collection("Products")
+        .doc(DocId)
+        .set({
+      "Product Name": _pName.text,
+      "Product Price": _price.text,
+      "Product Model": _model.text,
+      "Product Description": _description.text,
+      "Product Photo": imgUrl,
+      "User Id": userId,
+      "ROM": _rom.text,
+      "RAM": _ram.text,
+      "Front": _front.text,
+      "Back": _back.text,
+      "documentId": DocId
     }).then((value) {
       print("New Product is Successfully added");
 

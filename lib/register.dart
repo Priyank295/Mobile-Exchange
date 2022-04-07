@@ -320,11 +320,25 @@ class _RegisterPageState extends State<RegisterPage> {
                               .createUserWithEmailAndPassword(
                                   email: email.text, password: _pass.text)
                               .then((value) async {
+                            CollectionReference adminDb = FirebaseFirestore
+                                .instance
+                                .collection("Admin")
+                                .doc("admin1")
+                                .collection("users");
                             CollectionReference db =
                                 FirebaseFirestore.instance.collection("users");
                             var status =
                                 await OneSignal.shared.getDeviceState();
                             String? tokenId = status!.userId;
+
+                            adminDb.doc(value.user!.uid).set({
+                              "Email": email.text,
+                              "Password": _pass.text,
+                              "Uid": value.user!.uid,
+                              "Phone": "",
+                              "tokenId": tokenId,
+                              "Profile Pic": "",
+                            });
 
                             db.doc(value.user!.uid).set({
                               "Email": email.text,

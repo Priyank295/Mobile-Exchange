@@ -10,8 +10,8 @@ bool menu = true;
 bool close = false;
 bool icon = true;
 
-GlobalKey<SliderMenuContainerState> _key =
-    new GlobalKey<SliderMenuContainerState>();
+GlobalKey<SliderDrawerState> _key =
+    new GlobalKey<SliderDrawerState>();
 
 class Drawer extends StatefulWidget {
   const Drawer({Key? key}) : super(key: key);
@@ -35,26 +35,31 @@ class _DrawerState extends State<Drawer> {
     });
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SliderMenuContainer(
+      body: SliderDrawer(
           key: _key,
-          appBarHeight: 90,
+          appBar: SliderAppBar(
+            appBarHeight: 90,
           appBarPadding: EdgeInsets.symmetric(horizontal: 10),
-          animationDuration: 1,
           appBarColor: Colors.white,
-          isDraggable: false,
           drawerIconSize: 50,
-          // sliderMenuOpenSize: 200,
+           title: Container(
+            margin: EdgeInsets.only(top: 30),
+            child: Text(
+              title,
+              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
+            ),
+          ),
           drawerIcon: Container(
             margin: EdgeInsets.only(right: 10, top: 30),
             child: GestureDetector(
               onTap: () {
                 if (menu == true) {
-                  _key.currentState!.openDrawer();
+                  _key.currentState!.openSlider();
                   setState(() {
                     menu = false;
                   });
                 } else {
-                  _key.currentState!.closeDrawer();
+                  _key.currentState!.closeSlider();
                   setState(() {
                     menu = true;
                   });
@@ -65,15 +70,18 @@ class _DrawerState extends State<Drawer> {
                   : LineIcon(Icons.close),
             ),
           ),
-          slideDirection: SlideDirection.RIGHT_TO_LEFT,
-          title: Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Text(
-              title,
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-            ),
           ),
-          sliderMenu: MenuWidget(
+          
+          animationDuration: 1,
+          
+          isDraggable: false,
+          
+          
+          // sliderMenuOpenSize: 200,
+          
+          slideDirection: SlideDirection.RIGHT_TO_LEFT,
+         
+          slider: MenuWidget(
               // onItemClick: (title) {
               //   _key.currentState!.closeDrawer();
               //   setState(() {
@@ -81,7 +89,7 @@ class _DrawerState extends State<Drawer> {
               //   });
               // },
               ),
-          sliderMain: MainWidget()),
+          child: MainWidget()),
     );
   }
 }

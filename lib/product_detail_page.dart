@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mbx/chatScreen.dart';
 import 'package:mbx/database.dart';
+import 'package:mbx/loginpage.dart';
 import 'package:mbx/main_widget.dart';
 import 'package:path/path.dart';
 import 'package:get/get.dart';
@@ -23,8 +24,8 @@ class ProductDetailPage extends StatefulWidget {
   QueryDocumentSnapshot proSnapshot;
 
   ProductDetailPage(
-    this.DocId,
     this.UserId,
+    this.DocId,
     this.proSnapshot,
   );
 
@@ -82,6 +83,10 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       DatabaseMethods().createChatroom(chatRoomId, chatRoomMap);
 
       Get.to(ChatScreen(chatRoomId, userName));
+      // () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(
+      //         builder: (ctx) => ChatScreen(chatRoomId, userName)));
     } else {
       print("You cannot send message to yourself");
     }
@@ -96,7 +101,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
-            .doc(UserId)
+            .doc(widget.UserId)
             .snapshots(),
         builder: (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
           if (snapshot.hasData) {
@@ -108,26 +113,26 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 //   height: MediaQuery.of(context).size.height,
                 // ),
                 Container(
-                  height: MediaQuery.of(context).size.height / 2.5,
+                  height: MediaQuery.of(context).size.height / 2.7,
                   width: double.infinity,
                   child: Stack(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 60, left: 25),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          child: InkWell(
-                            onTap: () => Navigator.pop(context),
-                            child: SvgPicture.asset(
-                              "assets/arrow.svg",
-                              height: 20,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(top: 60, left: 25),
+                      //   child: GestureDetector(
+                      //     onTap: () {
+                      //       Navigator.pop(context);
+                      //     },
+                      //     child: InkWell(
+                      //       onTap: () => Navigator.pop(context),
+                      //       child: SvgPicture.asset(
+                      //         "assets/arrow.svg",
+                      //         height: 20,
+                      //         color: Colors.black,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                       CarouselSlider(
                         items: imagesUrl
                             .map(
@@ -166,7 +171,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                     borderRadius: BorderRadius.circular(40),
                     color: Colors.white,
                   ),
-                  height: 470,
+                  height: 500,
                   width: double.infinity,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,7 +213,104 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         ],
                       ),
                       SizedBox(
-                        height: 50,
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "RAM : ",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.proSnapshot["RAM"] + " GB",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "ROM : ",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.proSnapshot["ROM"] + " GB",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 25, right: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  "Front Camera : ",
+                                  style: TextStyle(
+                                      fontSize: 17,
+                                      fontFamily: "Lato",
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  widget.proSnapshot["Front"] + " MP",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(width: 20),
+                            Row(
+                              children: [
+                                Text(
+                                  "Back Camera : ",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  widget.proSnapshot["Back"] + " MP",
+                                  style: TextStyle(
+                                    fontSize: 17,
+                                    fontFamily: "Lato",
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
                       ),
                       Padding(
                         padding:
@@ -216,9 +318,9 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         child: Text(
                           "Description",
                           style: TextStyle(
-                            fontSize: 16,
-                            fontFamily: "Lato",
-                          ),
+                              fontSize: 16,
+                              fontFamily: "Lato",
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                       Padding(
@@ -237,7 +339,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                         child: Padding(
                           padding: const EdgeInsets.all(16.0),
                           child: Container(
-                            height: MediaQuery.of(context).size.height / 4,
+                            height: MediaQuery.of(context).size.height / 3.6,
                             width: double.infinity,
                             child: Card(
                               shape: RoundedRectangleBorder(
@@ -263,7 +365,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            left: 15, top: 10),
+                                            left: 15, top: 20),
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -302,29 +404,28 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10, left: 20),
-                                        child: Container(
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                "assets/location.svg",
-                                                height: 22,
-                                              ),
-                                              Text(
-                                                snapshot.data!["District"],
-                                                style: TextStyle(
-                                                    fontFamily: "Lato",
-                                                    fontSize: 14,
-                                                    fontWeight:
-                                                        FontWeight.bold),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
                                     ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 5, left: 75),
+                                    child: Container(
+                                      child: Row(
+                                        children: [
+                                          SvgPicture.asset(
+                                            "assets/location.svg",
+                                            height: 22,
+                                          ),
+                                          Text(
+                                            snapshot.data!["District"],
+                                            style: TextStyle(
+                                                fontFamily: "Lato",
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(

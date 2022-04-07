@@ -56,7 +56,34 @@ class DatabaseMethods {
   getProductsBySearch(String searchField) async {
     return await FirebaseFirestore.instance
         .collection("Products")
-        .where("Product Name", isEqualTo: searchField)
+        // .where("Product Name", : searchField)
+        .where(
+          'Product Name',
+          isGreaterThanOrEqualTo: searchField,
+          isLessThan: searchField.substring(0, searchField.length - 1) +
+              String.fromCharCode(
+                  searchField.codeUnitAt(searchField.length - 1) + 1),
+        )
         .get();
+  }
+
+  getProductBrand() async {
+    return await FirebaseFirestore.instance
+        .collection("Categories")
+        .snapshots();
+  }
+
+  // removeProduct(String productId) async {
+  //   return await FirebaseFirestore.instance
+  //       .collection("Products")
+  //       .where(productId, isEqualTo: )
+  //       .snapshots();
+  // }
+
+  removeProduct(String productId) async {
+    return await FirebaseFirestore.instance
+        .collection("Products")
+        .doc(productId)
+        .delete();
   }
 }

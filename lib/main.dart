@@ -5,6 +5,9 @@ import 'package:mbx/fill_profile.dart';
 import 'package:mbx/firstpage.dart';
 import 'package:mbx/navbar.dart';
 import 'package:mbx/loginpage.dart';
+import 'package:mbx/sellpage.dart';
+import 'package:mbx/settingsScreen.dart';
+import 'package:mbx/unwantedCode.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:mbx/register.dart';
@@ -12,6 +15,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import './register.dart';
 import 'constants.dart';
+import './new_sellpage.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -59,8 +63,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home:
-          FirebaseAuth.instance.currentUser == null ? FirstPage() : FirstPage(),
+      home: FirebaseAuth.instance.currentUser == null ? FirstPage() : NavBar(),
       routes: {
         "/login": (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
