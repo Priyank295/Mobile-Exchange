@@ -8,5 +8,10 @@ Mobile-Exchange is online mobile selling and buying app that built in flutter an
 ![Splash](2.png)
 ![Register](3.png)
 ![Home](home.png)
-![Product](detail screen.png)
+![Splash](profilemain.png)
+![Product](detailscreen.png)
+![Splash](search.png)
+![Splash](sell.png)
+![Splash](forgot 2.png)
+![Splash](chat.png)
 
