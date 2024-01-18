@@ -151,8 +151,8 @@ class _OtpPage2State extends State<OtpPage2> {
                       });
                     } catch (e) {
                       FocusScope.of(context).unfocus();
-                      _scaffoldKey.currentState!.showSnackBar(
-                          const SnackBar(content: Text('invalid OTP')));
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Invalid OTP")));
                     }
                   },
                   fieldsCount: 6,
@@ -188,7 +188,7 @@ class _OtpPage2State extends State<OtpPage2> {
                 borderRadius: BorderRadius.circular(56),
                 color: Color(0xFFF6342E8),
               ),
-              child: FlatButton(
+              child: ElevatedButton(
                   onPressed: () async {
                     (pin) async {
                       try {
@@ -223,8 +223,8 @@ class _OtpPage2State extends State<OtpPage2> {
                         });
                       } catch (e) {
                         FocusScope.of(context).unfocus();
-                        _scaffoldKey.currentState!.showSnackBar(
-                            const SnackBar(content: Text('invalid OTP')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text("Invalid OTP")));
                       }
                     };
                   },
@@ -271,10 +271,6 @@ class _OtpPage2State extends State<OtpPage2> {
         ),
       ),
     );
-  }
-
-  void displayMessage(String message) {
-    _scaffoldKey.currentState!.showSnackBar(SnackBar(content: Text(message)));
   }
 
   User? user = _auth.currentUser;

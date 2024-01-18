@@ -1,15 +1,7 @@
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mbx/loginpage.dart';
-import 'package:mbx/main_widget.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'navbar.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:get/get.dart';
 
 String finalEmail = "";
 

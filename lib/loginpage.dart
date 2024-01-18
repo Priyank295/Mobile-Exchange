@@ -680,7 +680,7 @@ class _LoginPageState extends State<LoginPage> {
                             _loading = false;
                           });
                           FocusScope.of(context).unfocus();
-                          _scaffoldKey.currentState!.showSnackBar(
+                          ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text("USER IS NOT VALID")));
                         }

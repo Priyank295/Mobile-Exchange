@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:get/get.dart';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_appavailability/flutter_appavailability.dart';
+
 import 'package:http/http.dart';
 import 'package:lottie/lottie.dart';
 import 'package:device_apps/device_apps.dart';
@@ -71,9 +71,8 @@ class _CheckMailState extends State<CheckMail> {
                 GestureDetector(
                   onTap: () {
                     try {
-                      getApps();
+                      // getApps();
                       // AppAvailability.launchApp("com.google.android.gm");
-
                     } catch (e) {
                       print(e);
                     }
@@ -121,18 +120,18 @@ class _CheckMailState extends State<CheckMail> {
           ));
   }
 
-  Future<void> getApps() async {
-    List<Map<String, String>> _gmailapp;
-    if (Platform.isAndroid) {
-      _gmailapp = await AppAvailability.getInstalledApps();
+  // Future<void> getApps() async {
+  //   List<Map<String, String>> _gmailapp;
+  //   if (Platform.isAndroid) {
+  //     _gmailapp = await AppAvailability.getInstalledApps();
 
-      print(await AppAvailability.checkAvailability("com.android.chrome"));
-      print(await AppAvailability.isAppEnabled("com.android.chrome"));
-      print(await AppAvailability.checkAvailability("com.google.android.gm"));
-      print(await AppAvailability.isAppEnabled("com.google.android.gm"));
-      AppAvailability.launchApp("com.google.android.gm");
-    }
-  }
+  //     print(await AppAvailability.checkAvailability("com.android.chrome"));
+  //     print(await AppAvailability.isAppEnabled("com.android.chrome"));
+  //     print(await AppAvailability.checkAvailability("com.google.android.gm"));
+  //     print(await AppAvailability.isAppEnabled("com.google.android.gm"));
+  //     AppAvailability.launchApp("com.google.android.gm");
+  //   }
+  // }
 
   @override
   void initState() {

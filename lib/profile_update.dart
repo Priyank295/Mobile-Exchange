@@ -545,7 +545,7 @@ class _ProfileUpdateState extends State<ProfileUpdate> {
                                   // });
 
                                   print(picUrl);
-                                  _scaffoldKey.currentState!.showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                       new SnackBar(
                                           content: Text(
                                               "Profile is Successfully updated...",
